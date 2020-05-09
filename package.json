@@ -1,6 +1,6 @@
 {
   "name": "uddogtahat-mvc",
-  "version": "V10.16.1",
+  "version": "10.16.1",
   "main": "app.js",
   "private": true,
   "scripts": {
