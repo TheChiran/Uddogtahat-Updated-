@@ -31,15 +31,12 @@ app.use(cookieParser());
   secret: 'uddogtahat5546',
   saveUninitialized: true
 }))*/
+
 app.use(session({
-  cookie:{
-    secure: true,
-    maxAge:60000
-  },
   secret: 'secret',
+  resave: true,
   saveUninitialized: true,
-  resave: false
-}));
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
