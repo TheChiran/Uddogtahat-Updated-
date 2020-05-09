@@ -27,9 +27,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+/*app.use(session({
+  secret: 'uddogtahat5546',
+  saveUninitialized: true
+}))*/
 app.use(session({
-  secret: 'uddogtahat5546'
-}))
+  cookie:{
+    secure: true,
+    maxAge:60000
+  },
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: false
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
