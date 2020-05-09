@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% if(title.length> 0){%>
+    <title><%=title[0].title%></title>
+    <%} else {%>
+        <title></title>
+    <%}%>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Zeta Template Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/responsive.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+    <link rel="stylesheet" href="/styles/thumbnail-gallery.css">
+    <script>
+        window.onload = function () {
+            var next = '';
+            var page = parseInt(pageNum());
+            next += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page + 1);
+            next += '" >Next</a>';
+            document.getElementById('pageNext').innerHTML = next;
+            var previous = '';
+            previous += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page - 1);
+            previous += '" >Previous</a>';
+            document.getElementById('pagePrevious').innerHTML = previous;
+        };
+        function pageNum() {
+            var pageNum = $('#getPageNum').val();
+            return pageNum;
+        }
+    </script>
+    <style>
+        .dropbtn {
+            font-size: 12px;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            color: #0b1033;
+            letter-spacing: 3.5px;
+            padding-left: 14px;
+            padding-right: 10px;
+            font-weight: 600;
+        }
+        .dropbtn:hover{
+            cursor: pointer;
+            color: #fff;
+        }
+        .dropdown {
+            display: inline-block;
+            margin-top: 45px !important;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #28cc28;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content:hover{
+            cursor: pointer;
+            color: #fff;
+        }
+        .dropdown-content a:hover {background-color: #ddd;
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {
+            background-color: #28cc28;
+            color: #fff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="super_container">
+
+    <!-- Header -->
+
+    <header class="header d-flex flex-row justify-content-end align-items-center">
+
+        <!-- Logo -->
+        <div class="logo_container mr-auto">
+            <div class="logo">
+                <% if(logo.length > 0){%>
+                    <% for(var i=0;i<logo.length;i++){%>
+                    <a href="#"><span><img src="/uploads/logo/<%=logo[i].image%>" alt="" style="height: 80px"></span><span></span></a>
+                    <%}%>
+                <%} else{%>
+                    <a href="#"><span><img src="/uploads/logo/logo.jpg" alt="" style="height: 80px"></span><span></span></a>
+                <%}%>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="main_nav justify-self-end" id="myTopnav">
+            <ul class="nav_items">
+                <li><a href="/"><span>home</span></a></li>
+                <li><a href="/members"><span>Members</span></a></li>
+                <li><a href="/activities"><span>Activities</span></a></li>
+                <li><a href="/commitee"><span>Commitee</span></a></li>
+                <li style="margin: 0px !important;" class="active">
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            Events <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/upcoming">Upcoming</a>
+                            <a href="/update">Update</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/gallary"><span>Gallary</span></a></li>
+                <li><a href="/about"><span>About</span></a></li>
+                <li><a href="/contact"><span>contact</span></a></li>
+                <li><a href="/applicant/register"><span>Register</span></a></li>
+
+            </ul>
+        </nav>
+
+        <!-- Hamburger -->
+        <div class="hamburger_container">
+            <span class="hamburger_text">Menu</span>
+            <span class="hamburger_icon"></span>
+        </div>
+
+    </header>
+
+    <!-- Menu -->
+
+    <!-- Menu -->
+
+    <div class="fs_menu_overlay"></div>
+    <div class="fs_menu_container">
+        <div class="fs_menu_shapes"><img src="images/menu_shapes.png" alt=""></div>
+        <nav class="fs_menu_nav">
+            <ul class="fs_menu_list">
+                <li><a href="/"><span>home</span></a></li>
+                <li><a href="/members"><span>Members</span></a></li>
+                <li><a href="/activities"><span>Activities</span></a></li>
+                <li><a href="/commitee"><span>Commitee</span></a></li>
+                <li><a href="/upcoming"><span>Upcomming Event</span></a></li>
+                <li><a href="/update"><span>Updated Event</span></a></li>
+                <li><a href="/gallary"><span>Gallary</span></a></li>
+                <li><a href="/about"  class="active"><span>About</span></a></li>
+                <li><a href="/contact"><span>contact</span></a></li>
+                <li><a href="/applicant/register"><span>Register</span></a></li>
+            </ul>
+        </nav>
+        <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
+            <ul class="fs_social">
+                <% if(socialAccounts.length > 0){%>
+                    <% for(var i=0;i<socialAccounts.length;i++){%>
+                    <li>
+                        <a href="<%=socialAccounts[i].link%>">
+                            <img src="/uploads/socialAccounts/<%=socialAccounts[i].icon%>" alt="" style="height: 25px;width: 25px">
+                        </a>
+                    </li>
+                    <%}%>
+                <%} else{%>
+                    <li>
+                        <a href="">
+                            <img src="/uploads/socialAccounts/" alt="" style="height: 25px;width: 25px">
+                        </a>
+                    </li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero Slider -->
+    <div class="services prlx_parent">
+        <div class="container">
+            <h2 align="center" style="text-transform: uppercase">Updated Events</h2>
+            <% if(events.length > 0) {%>
+                <% for(var i=0;i<events.length;i++){%>
+                <div class="row" style="margin: 40px 0px">
+                    <div class="col-lg-1 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <span style="font-size: 55px;font-weight: bold"><i class="fa fa-check-square" aria-hidden="true" style="color: #28cc28"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-5">
+                        <h3 style="color: rgba(0,0,0,0.5);font-size: 18px"><%=events[i].date%></h3>
+                        <a href="/event/<%=events[i]._id%>"><h3 style="color: #28cc28;font-size: 25px"><%=events[i].name%></h3></a>
+                    </div>
+                </div>
+                <%}%>
+            <%} else {%>
+            <div class="row" style="margin: 40px 0px">
+                <div class="col-lg-1 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <span style="font-size: 55px;font-weight: bold"><i class="fa fa-check-square" aria-hidden="true" style="color: #28cc28"></i>
+                        </span>
+                </div>
+                <div class="col-lg-5">
+                    <h3 style="color: rgba(0,0,0,0.5);font-size: 18px"></h3>
+                    <a href="/event/"><h3 style="color: #28cc28;font-size: 25px"></h3></a>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row footer_content d-flex flex-sm-row flex-column align-items-center">
+                <div class="col-sm-6 cr text-sm-left text-center">
+                    <p>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | by <a href="https://softcareit.com/" target="_blank">SoftCareIt</a>
+                    </p>
+                </div>
+                <div class="col-sm-6 text-sm-right text-center">
+                    <div class="footer_social_container">
+                        <ul class="fs_social">
+                            <% if(socialAccounts.length > 0){%>
+                                <% for(var i=0;i<socialAccounts.length;i++){%>
+                                <li>
+                                    <a href="<%=socialAccounts[i].link%>">
+                                        <img src="/uploads/socialAccounts/<%=socialAccounts[i].icon%>" alt="" style="height: 25px;width: 25px">
+                                    </a>
+                                </li>
+                                <%}%>
+                            <%} else{%>
+                                <li>
+                                    <a href="">
+                                        <img src="/uploads/socialAccounts/" alt="" style="height: 25px;width: 25px">
+                                    </a>
+                                </li>
+                            <%}%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/greensock/TweenMax.min.js"></script>
+<script src="/plugins/greensock/TimelineMax.min.js"></script>
+<script src="/plugins/scrollmagic/ScrollMagic.min.js"></script>
+<script src="/plugins/greensock/animation.gsap.min.js"></script>
+<script src="/plugins/greensock/ScrollToPlugin.min.js"></script>
+<script src="/plugins/progressbar/progressbar.min.js"></script>
+<script src="/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+
+</html>

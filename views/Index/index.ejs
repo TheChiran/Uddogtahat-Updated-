@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% if(title.length> 0){%>
+        <title><%=title[0].title%></title>
+    <%} else {%>
+    <title></title>
+    <%}%>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Zeta Template Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+    <link rel="stylesheet" href="styles/thumbnail-gallery.css">
+    <style>
+        .dropbtn {
+            font-size: 12px;
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            color: #0b1033;
+            letter-spacing: 3.5px;
+            padding-left: 14px;
+            padding-right: 10px;
+            font-weight: 600;
+        }
+        .dropbtn:hover{
+            cursor: pointer;
+            color: #fff;
+        }
+        .dropdown {
+            display: inline-block;
+            margin-top: 45px !important;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #28cc28;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content:hover{
+            cursor: pointer;
+            color: #fff;
+        }
+        .dropdown-content a:hover {background-color: #ddd;
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {
+            background-color: #28cc28;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="super_container">
+
+    <!-- Header -->
+
+    <header class="header d-flex flex-row justify-content-end align-items-center">
+
+        <!-- Logo -->
+        <div class="logo_container mr-auto">
+            <div class="logo">
+                <% if(logo.length > 0){%>
+                    <% for(var i=0;i<logo.length;i++){%>
+                    <a href="#"><span><img src="/uploads/logo/<%=logo[i].image%>" alt="" style="height: 80px"></span><span></span></a>
+                    <%}%>
+                <%} else{%>
+                    <a href="#"><span><img src="/uploads/logo/logo.jpg" alt="" style="height: 80px"></span><span></span></a>
+                <%}%>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="main_nav justify-self-end" id="myTopnav">
+            <ul class="nav_items">
+                <li class="active"><a href="/"><span>home</span></a></li>
+                <li><a href="/members"><span>Members</span></a></li>
+                <li><a href="/activities"><span>Activities</span></a></li>
+                <li><a href="/commitee"><span>Commitee</span></a></li>
+                <li style="margin: 0px !important;">
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            Events <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/upcoming">Upcoming</a>
+                            <a href="/update">Update</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/gallary"><span>Gallary</span></a></li>
+                <li><a href="/about"><span>About</span></a></li>
+                <li><a href="/contact"><span>contact</span></a></li>
+                <li><a href="/applicant/register"><span>Register</span></a></li>
+
+            </ul>
+        </nav>
+
+        <!-- Hamburger -->
+        <div class="hamburger_container">
+            <span class="hamburger_text">Menu</span>
+            <span class="hamburger_icon"></span>
+        </div>
+
+    </header>
+
+    <!-- Menu -->
+
+    <div class="fs_menu_overlay"></div>
+    <div class="fs_menu_container">
+        <div class="fs_menu_shapes"><img src="images/menu_shapes.png" alt=""></div>
+        <nav class="fs_menu_nav">
+            <ul class="fs_menu_list">
+                <li><a href="/"><span>home</span></a></li>
+                <li><a href="/members"><span>Members</span></a></li>
+                <li><a href="/activities"><span>Activities</span></a></li>
+                <li><a href="/commitee"><span>Commitee</span></a></li>
+                <li><a href="/upcoming"><span>Upcomming Event</span></a></li>
+                <li><a href="/update"><span>Updated Event</span></a></li>
+                <li><a href="/gallary"><span>Gallary</span></a></li>
+                <li><a href="/about"  class="active"><span>About</span></a></li>
+                <li><a href="/contact"><span>contact</span></a></li>
+                <li><a href="/applicant/register"><span>Register</span></a></li>
+            </ul>
+        </nav>
+        <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
+            <ul class="fs_social">
+                <% if(socialAccounts.length > 0){%>
+                    <% for(var i=0;i<socialAccounts.length;i++){%>
+                    <li>
+                        <a href="<%=socialAccounts[i].link%>">
+                            <img src="/uploads/socialAccounts/<%=socialAccounts[i].icon%>" alt="" style="height: 25px;width: 25px">
+                        </a>
+
+                    </li>
+                    <%}%>
+                <%} else {%>
+                    <li>
+                        <a href="">
+                            <img src="/uploads/socialAccounts/" alt="" style="height: 25px;width: 25px">
+                        </a>
+
+                    </li>
+                <%}%>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero Slider -->
+
+    <div class="home">
+        <div class="hero_slider_container slider_prlx">
+            <div class="owl-carousel owl-theme hero_slider">
+                <% if(slider.length >0){%>
+
+                    <% for(var i=0;i<slider.length;i++) {%>
+                    <!-- Slider Item -->
+                    <div class="owl-item main_slider_item">
+                        <div class="main_slider_item_bg" style="background-image:url(/uploads/homePageSlider/<%=slider[i].image%>)">
+                            <div class="homepage overlay" style="position: relative;width: 100%;height: 100%;background: rgba(0,0,0,0.4);z-index: 1"></div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col slider_content_col">
+                                    <div class="main_slider_content">
+                                        <h1><%=slider[i].title%></h1>
+                                        <p><%=slider[i].content%> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                <%} else {%>
+                    <div class="owl-item main_slider_item">
+                        <div class="main_slider_item_bg" style="background-image:url(/uploads/homePageSlider/)">
+                            <div class="homepage overlay" style="position: relative;width: 100%;height: 100%;background: rgba(0,0,0,0.4);z-index: 1"></div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col slider_content_col">
+                                    <div class="main_slider_content">
+                                        <h1></h1>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <%}%>
+            </div>
+
+            <!-- Slider Dots -->
+
+            <div class="main_slider_dots">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <ul id="main_slider_custom_dots" class="main_slider_custom_dots">
+                                <li class="main_slider_custom_dot active"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Dots -->
+
+            <div class="main_slider_nav_left main_slider_nav">
+                <i class="fas fa-chevron-left trans_300"></i>
+            </div>
+
+            <div class="main_slider_nav_right main_slider_nav">
+                <i class="fas fa-chevron-right trans_300"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="home_social_container d-flex flex-row justify-content-end align-items-center">
+
+        <ul class="home_social">
+            <% if(socialAccounts.length > 0){%>
+                <% for(var i=0;i<socialAccounts.length;i++){%>
+                <li>
+                    <a href="<%=socialAccounts[i].link%>">
+                        <img src="/uploads/socialAccounts/<%=socialAccounts[i].icon%>" alt="" style="height: 25px;width: 25px">
+                    </a>
+
+                </li>
+                <%}%>
+            <%} else{%>
+                <li>
+                    <a href="">
+                        <img src="/uploads/socialAccounts/" alt="" style="height: 25px;width: 25px">
+                    </a>
+                </li>
+            <%}%>
+
+        </ul>
+    </div>
+
+    <!-- Features -->
+
+    <div class="features">
+        <div class="container">
+            <div class="row align-items-end">
+                <% if(quotes.length > 0){%>
+                    <!-- Features Item -->
+                    <% for(var i=0;i<quotes.length;i++) {%>
+                    <div class="col-lg-4 features_col" style="margin-bottom: 80px;margin-top: 50px">
+                        <div class="features_item d-flex flex-column align-items-center justify-content-end text-center">
+                            <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                            <div class="icon_container d-flex flex-column justify-content-end" style="margin-bottom: 150px">
+                                <img src="/uploads/quote/<%=quotes[i].image%>" alt="" style="height: 120px;width: 120px">
+                            </div>
+                            <div class="icon_container d-flex flex-column justify-content-end">
+                                <h3 style="font-size: 15px">"<%=quotes[i].quote%>"</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <%}%>
+                <%} else{%>
+                    <div class="col-lg-4 features_col" style="margin-bottom: 80px;margin-top: 50px">
+                        <div class="features_item d-flex flex-column align-items-center justify-content-end text-center">
+                            <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                            <div class="icon_container d-flex flex-column justify-content-end" style="margin-bottom: 150px">
+                                <img src="/uploads/quote/" alt="" style="height: 120px;width: 120px">
+                            </div>
+                            <div class="icon_container d-flex flex-column justify-content-end">
+                                <h3 style="font-size: 15px">""</h3>
+                            </div>
+                        </div>
+                    </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+    <!-- About -->
+
+    <div class="about prlx_parent">
+        <% if(aboutsectionbackground.length > 0) {%>
+            <% for(var i=0;i<aboutsectionbackground.length;i++){%>
+            <div class="about_background prlx" style="background-image:url(/uploads/aboutBackground/<%=aboutsectionbackground[i].image%>)">
+                <div class="overlay" style="background: rgba(0,0,0,0.8);width: 100%;height: 100%;
+            position: fixed;z-index: 2;top: 0;left: 0;right: 0;bottom: 0"></div>
+            </div>
+            <%}%>
+        <%} else{%>
+            <div class="about_background prlx" style="background-image:url(/uploads/aboutBackground/)">
+                <div class="overlay" style="background: rgba(0,0,0,0.8);width: 100%;height: 100%;
+            position: fixed;z-index: 2;top: 0;left: 0;right: 0;bottom: 0"></div>
+            </div>
+        <%}%>
+        <!-- https://unsplash.com/@nativemello -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title">
+                    <% if(title.length > 0){%>
+                        <h2>About <%=title[0].title%></h2>
+                    <%} else {%>
+                    <h2>About</h2>
+                    <%}%>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about_text">
+                        <% if(aboutSectionContents.length > 0){%>
+                        <p><%=aboutSectionContents[0].contents%></p>
+                        <%} else {%>
+                        <p></p>
+                        <%}%>
+                    </div>
+                </div>
+                <div class="col-lg-6" style="margin: 25px 0px">
+                    <% if(abouts.length > 0){%>
+                        <% for(var i=0;i<abouts.length;i++){%>
+                        <span style="color: #fff;font-weight: bold;font-size: 15px;margin-bottom: 5px"><%=abouts[i].skill%></span>
+                        <span style="color: #fff"><%=abouts[i].percentage%>%</span>
+                        <div class="progress" style="margin-bottom: 15px;height: 5px;border-radius: initial !important;">
+                            <div class="progress-bar" style="width: <%=abouts[i].percentage%>%;background: #28cc28">
+                            </div>
+                        </div>
+                        <%}%>
+                    <%} else {%>
+                        <span style="color: #fff;font-weight: bold;font-size: 15px;margin-bottom: 5px"></span>
+                        <span style="color: #fff"></span>
+                        <div class="progress" style="margin-bottom: 15px;height: 5px;border-radius: initial !important;">
+                            <div class="progress-bar" style="width: ;background: #28cc28">
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Testimonials -->
+
+    <div class="testimonials">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title section_title_dark">
+                    <h2>Our Committees</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="testimonials_container">
+                        <div class="testimonials_container_inner"></div>
+                        <!-- Testimonials Slider -->
+                        <div class="owl-carousel owl-theme testimonials_slider">
+                            <% if(commiteeMembers.length> 0){%>
+                                <% for(var i=0;i<commiteeMembers.length;i++) {%>
+                                <!-- Testimonials Item -->
+                                <div class="owl-item testimonials_item d-flex flex-column align-items-center justify-content-center text-center" >
+                                    <div class="testimonials_content" style="margin: 30px 0px">
+                                        <div class="test_user_pic"><img src="/uploads/committee/<%=commiteeMembers[i].image%>" alt="" style="height: 120px;width: 120px"></div>
+                                        <div class="test_name"><%=commiteeMembers[i].name%></div>
+                                        <br>
+                                        <div class="test_title">
+                                            <%=commiteeMembers[i].companyname%></div>
+                                        <div class="test_quote"><%=commiteeMembers[i].designation%></div>
+                                    </div>
+                                </div>
+                                <%}%>
+                            <%} else {%>
+                                <div class="owl-item testimonials_item d-flex flex-column align-items-center justify-content-center text-center" >
+                                    <div class="testimonials_content" style="margin: 30px 0px">
+                                        <div class="test_user_pic"><img src="/uploads/committee/" alt="" style="height: 120px;width: 120px"></div>
+                                        <div class="test_name"></div>
+                                        <br>
+                                        <div class="test_title"></div>
+                                        <div class="test_quote"></div>
+                                    </div>
+                                </div>
+                            <%}%>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Testimonials Slider Navigation -->
+
+                <div class="test_slider_nav test_slider_nav_left d-flex flex-column justify-content-center align-items-center trans_200">
+                    <i class="fas fa-chevron-left trans_200"></i>
+                </div>
+
+                <div class="test_slider_nav test_slider_nav_right d-flex flex-column justify-content-center align-items-center trans_200">
+                    <i class="fas fa-chevron-right trans_200"></i>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Services -->
+
+    <div class="services prlx_parent">
+        <% if(eventBackground.length> 0){%>
+            <% for(var i=0;i<eventBackground.length;i++) {%>
+            <div class="services_background prlx"
+                 style="background-image:url(/uploads/eventSectionBackground/<%=eventBackground[i].image%>)">
+
+                <div class="overlay" style="background: rgba(0,0,0,0.8);width: 100%;height: 100%;
+            position: fixed;z-index: 2;top: 0;left: 0;right: 0;bottom: 0"></div>
+            </div>
+            <%}%>
+        <%} else {%>
+            <div class="services_background prlx"
+                 style="background-image:url(/uploads/eventSectionBackground/)">
+                <div class="overlay" style="background: rgba(0,0,0,0.8);width: 100%;height: 100%;
+            position: fixed;z-index: 2;top: 0;left: 0;right: 0;bottom: 0"></div>
+            </div>
+        <%}%>
+
+        <div class="container">
+            <div class="row">
+                <% if(events.length > 0){%>
+                    <% for(var i=0;i<events.length;i++){%>
+                    <div class="col-lg-1 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <span style="font-size: 55px;font-weight: bold"><i class="fa fa-check-square" aria-hidden="true" style="color: #28cc28"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-5">
+                        <h3 style="color: #28cc28;font-size: 20px"><%=events[i].date%></h3>
+                        <a href="/event/<%=events[i]._id%>"><h3 style="color: #28cc28;font-size: 25px"><%=events[i].name%></h3></a>
+                    </div>
+                    <%}%>
+                <%} else {%>
+                    <div class="col-lg-1 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <span style="font-size: 55px;font-weight: bold"><i class="fa fa-check-square" aria-hidden="true" style="color: #28cc28"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-5">
+                        <h3 style="color: #28cc28;font-size: 20px"></h3>
+                        <a href="/event/"><h3 style="color: #28cc28;font-size: 25px"></h3></a>
+                    </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clients -->
+
+    <div class="clients">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title section_title_dark">
+                    <h2>our Proud Members</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-8">
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <!-- Clients Slider -->
+                    <div class="clients_slider_container">
+                        <div class="owl-carousel owl-theme clients_slider">
+                            <% if(companies.length > 0){%>
+                                <!-- Slider Item -->
+                                <% for(var i=0;i<companies.length;i++) {%>
+                                <div class="owl-item clients_item">
+                                    <img src="/uploads/companies/<%=companies[i].logo%>" alt=""
+                                         style="width: 150px;height: 150px">
+                                </div>
+                                <%}%>
+                            <%} else {%>
+                                <div class="owl-item clients_item">
+                                    <img src="/uploads/companies/" alt=""
+                                         style="width: 150px;height: 150px">
+                                </div>
+                            <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Contact -->
+
+    <div class="contact prlx_parent">
+        <!-- <div class="contact_background parallax-window" data-parallax="scroll" data-speed="0.7" data-image-src="images/contact_background.jpg"></div> -->
+        <div class="contact_background prlx" style="background: #fff"></div>
+        <div class="contact_shapes"></div>
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title contact_title">
+                    <h2>Some Of Our Works</h2>
+                </div>
+            </div>
+
+            <div class="row">
+            </div>
+        </div>
+
+        <div class="container gallery-container">
+            <div class="tz-gallery">
+                <div class="row mt-5">
+                    <% if(gallary.length > 0){%>
+                        <% for(var i =0;i<gallary.length;i++){%>
+                        <div class="col-sm-6 col-md-6 col-lg-4">
+                            <div class="thumbnail">
+                                <a class="lightbox" href="/uploads/gallary/<%=gallary[i].image%>">
+                                    <img style="width: 100%;height: 250px" src="/uploads/gallary/<%=gallary[i].image%>">
+                                </a>
+                                <div class="caption">
+                                    <a href="/uploads/gallary/<%=gallary[i].image%>" class="lightbox">
+                                        <%=gallary[i].eventname%>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+                    <%} else {%>
+                        <div class="col-sm-6 col-md-6 col-lg-4">
+                            <div class="thumbnail">
+                                <a class="lightbox" href="/uploads/gallary/">
+                                    <img style="width: 100%;height: 250px" src="/uploads/gallary/">
+                                </a>
+                                <div class="caption">
+                                    <a href="/uploads/gallary/" class="lightbox">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Activities -->
+    <div class="clients">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title section_title_dark">
+                    <h2>Our Blogs</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <% if(blogs.length > 0){%>
+                    <% for(var i=0;i<blogs.length;i++){%>
+                    <div class="col-lg-4" style="margin-bottom: 80px">
+                        <a href="/activities-single/<%=blogs[i]._id%>">
+                            <img src="/uploads/activities/<%=blogs[i].image%>" alt="" style="width: 100%;height: 100%"><br>
+                        </a>
+                        <a href="/activities-single/<%=blogs[i]._id%>"><h3 style="color: #28cc28;font-size: 30px;margin-top: 10px"><%=blogs[i].title%></h3></a>
+                    </div>
+                    <%}%>
+                <%} else {%>
+                    <div class="col-lg-4" style="margin-bottom: 80px">
+                        <a href="/activities-single/">
+                            <img src="/uploads/activities/" alt="" style="width: 100%;height: 100%"><br>
+                        </a>
+                        <a href="/activities-single/"><h3 style="color: #28cc28;font-size: 30px;margin-top: 10px"></h3></a>
+                    </div>
+                <%}%>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row footer_content d-flex flex-sm-row flex-column align-items-center">
+                <div class="col-sm-6 cr text-sm-left text-center">
+                    <p>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | by <a href="http://softcareit.com/" target="_blank">SoftcareIT</a>
+                        </p>
+                </div>
+                <div class="col-sm-6 text-sm-right text-center">
+                    <div class="footer_social_container">
+                        <ul class="footer_social">
+                            <% if(socialAccounts.length > 0){%>
+                                <% for(var i=0;i<socialAccounts.length;i++){%>
+                                <li>
+                                    <a href="<%=socialAccounts[i].link%>">
+                                        <img src="/uploads/socialAccounts/<%=socialAccounts[i].icon%>" alt=""
+                                             style="height: 25px;width: 25px;display: block;color: #28CC28">
+                                    </a>
+                                </li>
+                                <%}%>
+                            <%} else {%>
+                                <li>
+                                    <a href="">
+                                        <img src="/uploads/socialAccounts/" alt=""
+                                             style="height: 25px;width: 25px;display: block;color: #28CC28">
+                                    </a>
+                                </li>
+                            <%}%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/greensock/TweenMax.min.js"></script>
+<script src="plugins/greensock/TimelineMax.min.js"></script>
+<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+<script src="plugins/greensock/animation.gsap.min.js"></script>
+<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+<script src="plugins/progressbar/progressbar.min.js"></script>
+<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="plugins/easing/easing.js"></script>
+<script src="js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+<script>
+    baguetteBox.run('.tz-gallery');
+</script>
+</body>
+
+</html>

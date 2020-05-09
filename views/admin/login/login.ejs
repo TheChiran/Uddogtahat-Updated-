@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/admin/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/admin/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+    <link href="/admin/css/style-responsive.css" rel="stylesheet">
+    <style>
+        :root {
+            --input-padding-x: 1.5rem;
+            --input-padding-y: .75rem;
+        }
+
+        body {
+            /*background: #007bff;
+            background: linear-gradient(to right, #0062E6, #33AEFF);*/
+            background: rgba(0,0,0,0.2);
+        }
+
+        .card-signin {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .card-signin .card-title {
+            margin-bottom: 2rem;
+            font-weight: 300;
+            font-size: 1.5rem;
+        }
+
+        .card-signin .card-body {
+            padding: 2rem;
+        }
+
+        .form-signin {
+            width: 100%;
+        }
+
+        .form-signin .btn {
+            font-size: 80%;
+            border-radius: 5rem;
+            letter-spacing: .1rem;
+            font-weight: bold;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-label-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .form-label-group input {
+            height: auto;
+            border-radius: 2rem;
+        }
+
+        .form-label-group>input,
+        .form-label-group>label {
+            padding: var(--input-padding-y) var(--input-padding-x);
+        }
+
+
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+            padding-bottom: calc(var(--input-padding-y) / 3);
+        }
+
+
+        .btn-google {
+            color: white;
+            background-color: #ea4335;
+        }
+
+        .btn-facebook {
+            color: white;
+            background-color: #3b5998;
+        }
+
+        /* Fallback for Edge
+        -------------------------------------------------- */
+
+        @supports (-ms-ime-align: auto) {
+            .form-label-group>label {
+                display: none;
+            }
+            .form-label-group input::-ms-input-placeholder {
+                color: #777;
+            }
+        }
+
+        /* Fallback for IE
+        -------------------------------------------------- */
+
+        @media all and (-ms-high-contrast: none),
+        (-ms-high-contrast: active) {
+            .form-label-group>label {
+                display: none;
+            }
+            .form-label-group input:-ms-input-placeholder {
+                color: #777;
+            }
+        }
+    </style>
+    <script>
+        function submit(){
+            let userEmail = $('#userEmail').val();
+            let userPassword = $('#userPassword').val();
+            if(userEmail ==''){
+
+                document.getElementById('msgBox').style="display:block";
+                document.getElementById('msg').innerHTML="Please Enter Email Or User name";
+            }else{
+                if(userPassword===''){
+                    document.getElementById('msgBox').style="display:block";
+                    document.getElementById('msg').innerHTML="Please Enter User Password";
+                }else{
+                    $.ajax({
+                        url:'/admin/login',
+                        type: 'post',
+                        data:{
+                            email: userEmail,
+                            password: userPassword
+                        },
+                        success:function(response){
+                            if(response === true){
+                                window.location.href='/admin';
+                            }else{
+                                $('#userEmail').val('');
+                                $('#userPassword').val('');
+                                document.getElementById('msgBox').style="display:block";
+                                document.getElementById('msg').innerHTML=response;
+                            }
+                        }
+                    })
+                }
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-md-4 col-lg-4"></div>
+        <div class="col-sm-6 col-md-4 col-lg-4 mx-auto" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%)">
+
+            <div class="alert-warning" style="display: none" id="msgBox">
+                <h2 id="msg" style="padding: 30px"></h2>
+            </div>
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                    <form class="form-signin">
+                        <div class="form-label-group">
+                            <input type="text" id="userEmail" class="form-control"
+                                   placeholder="User Name Or Email"
+                                   autocomplete="off"
+                                   required autofocus>
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" id="userPassword" class="form-control"
+                                   placeholder="Password"
+                                   autocomplete="off"
+                                   required>
+                        </div>
+
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Remember password</label>
+                        </div>
+                    </form>
+
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="button" onclick="return submit()">Sign in</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3 col-md-4 col-lg-4"></div>
+    </div>
+</div>
+
+
+
+<script src="/admin/lib/jquery/jquery.min.js"></script>
+<script src="/admin/lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="/admin/lib/jquery.scrollTo.min.js"></script
+        <!--common script for all pages-->
+<script src="/admin/lib/common-scripts.js"></script>
+</body>
+</html>

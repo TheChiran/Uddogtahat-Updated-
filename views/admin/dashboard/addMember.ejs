@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title><%=title%> Admin</title>
+
+    <!-- Favicons -->
+    <link href="/admin/img/favicon.png" rel="icon">
+    <link href="/admin/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/admin/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/admin/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+    <link href="/admin/css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/lib/advanced-datatable/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
+    <script>
+        function memberApprove(mobile){
+            $.ajax({
+                type:'post',
+                url:'/admin/member-requests/approve/'+mobile,
+                data:{
+                    approval:1
+                },
+                success:function(response){
+                    document.getElementById('msgBox').style="display: block";
+                    document.getElementById('msg').innerHTML=response;
+                }
+
+            })
+            return false;
+        }
+        function memberDelete(mobile){
+            $.ajax({
+                type:'post',
+                url:'/admin/member-requests/delete/'+mobile,
+                success:function(response){
+                    document.getElementById('msg').innerHTML=response;
+                }
+
+            })
+            return false;
+        }
+    </script>
+</head>
+
+<body style="font-size: 15px">
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation" style="background: rgba(255,255,255,0.7)"></div>
+        </div>
+        <!--logo start-->
+        <a href="/admin" class="logo"><b><%=title%> Dashboard</b></a>
+        <!--logo end-->
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="logout" href="/admin/logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href=""><img src="/uploads/admin/<%=userimage%>" class="img-circle" style="width: 100px;height: 100px"></a></p>
+                <h5 class="centered"><%=username%></h5>
+                <li class="mt">
+                    <a href="/admin">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Home Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/logo-upload">
+                                <span>Upload Logo</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/quotes">
+                                <span>Quote Section</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-about">
+                                <span>About Section</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-event">
+                                <span>Event Section <br>Background</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/homePageSlider">
+                                <span>Slider Section</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        <span>Gallery Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/gallary">
+                                <span>Upload</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <span>Activities Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/activities">
+                                <span>Post</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/activityPageHeader">
+                                <span>Header Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="active">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>Membership</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/member-requests">
+                                <span>Requests</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/member-add">
+                                <span>Add Member</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        <span>Contact Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/contact-page">
+                                <span>Post Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Event Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/event-page">
+                                <span>Post</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin/manage-events">
+                                <span>Manage</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="/admin/about-page">
+                        <i class="fa fa-book"></i>
+                        <span>About Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/social-accounts">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span>Social Accounts</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/committee">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <span>Committee Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/setting">
+                        <i class="fa fa-tasks"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    </section>
+
+<section>
+
+</section>
+
+<section>
+    <footer class="site-footer">
+        <div class="text-center">
+            <div class="credits">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | by <a href="http://softcareit.com/" target="_blank">SoftcareIT</a>
+            </div>
+            <a href="" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="/admin/lib/jquery/jquery.min.js"></script>
+<script src="/admin/lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="/admin/lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="/admin/lib/jquery.scrollTo.min.js"></script>
+<script src="/admin/lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="/admin/lib/common-scripts.js"></script>
+<script src="/admin/lib/advanced-datatable/js/jquery.dataTables.js"></script>
+<!--script for this page-->
+</body>
+
+</html>
