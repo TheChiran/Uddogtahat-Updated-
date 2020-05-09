@@ -9,13 +9,21 @@ var applicantRouter = require('./routes/applicant.route');
 var adminRouter = require('./routes/admin.route');
 
 //database connection
-const mongoose = require('mongoose');
-let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
+/*const mongoose = require('mongoose');
+let dbURL = 'mongodb+srv://uddogtahat:<uddogtahat12345>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
 let mongoDB = process.env.MONGODB_URI || dbURL;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
-db.on('error',console.error.bind(console,'MongoDb Connection error: '));
+db.on('error',console.error.bind(console,'MongoDb Connection error: '));*/
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://uddogtahat:<uddogtahat1234>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
 
 var app = express();
 var http = require('http').Server(app);
