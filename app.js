@@ -32,11 +32,11 @@ app.use(cookieParser());
   saveUninitialized: true
 }))*/
 
-app.use(session({
+/*app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true,
-}))
+}))*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
