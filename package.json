@@ -1,12 +1,9 @@
 {
   "name": "uddogtahat-mvc",
-  "description": "Uddogtahat Website",
-  "main": "app.js",
-  "version": "0.0.0",
+  "version": "V10.16.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
-    //"start": "node app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "async": "^3.1.1",
