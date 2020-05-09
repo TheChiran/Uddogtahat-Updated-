@@ -18,7 +18,7 @@ let db = mongoose.connection;
 db.on('error',console.error.bind(console,'MongoDb Connection error: '));
 
 var app = express();
-
+var http = require('http').Server(app);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
