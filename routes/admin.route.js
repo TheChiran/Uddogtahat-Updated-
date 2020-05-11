@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+//this route is for all the work an admin will do
+
 const admincontroller = require('../controllers/admin.controller');
 let auth = require('../middleware/admin.panel.authentication');
 
-router.get('/login',admincontroller.login);
-router.post('/login',admincontroller.loginPost);
+router.get('/login',admincontroller.login); //to get login page
+router.post('/login',admincontroller.loginPost); //to post or give username and password
 router.get('/',auth.auth,admincontroller.dashboard);
 router.get('/gallary',auth.auth,admincontroller.gallary);
 router.post('/gallary',auth.auth,admincontroller.gallary_post);

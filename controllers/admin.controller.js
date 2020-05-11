@@ -228,7 +228,8 @@ let companylogoUpload = multer({storage:companylogoStorage}).single('companylogo
 
 let bcrypt = require('bcryptjs');
 /*File upload*/
-
+const jwt = require('jsonwebtoken');
+const accessTokenSecret = 'uddogtahat54412';
 
 exports.login = function(req,res){
     res.render('admin/login/login')
@@ -244,7 +245,7 @@ exports.loginPost = function(req,res){
         if(adminEmail.length > 0){
             bcrypt.compare(req.body.password,adminEmail[0].password,function(err,response){
                 if(err){
-                    res.send('Password did not match!');
+                    res.send('Password Or Email did not match!');
                 }
                 if(response){
                     webtitle.exec(function(err,title){
@@ -262,7 +263,7 @@ exports.loginPost = function(req,res){
                     })
                 }
                 if(!response){
-                    res.send('Wrong Password! Please Try Again!');
+                    res.send('Wrong Password Or Email! Please Try Again!');
                 }
             })
             /*adminPasswordQuery.exec(function(err,adminPassword){

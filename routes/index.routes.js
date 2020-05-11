@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
+let auth = require('../middleware/admin.panel.authentication');
 var indexController = require('../controllers/index.controller');
 /* GET home page. */
 router.get('/',indexController.index);
+
+
+
+
+
+
 router.get('/activities',indexController.activities);
 router.get('/activities/page/:page',indexController.activities_get_page);
 router.get('/activities-single/:id',indexController.activitiesSingle);

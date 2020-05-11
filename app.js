@@ -10,35 +10,41 @@ var adminRouter = require('./routes/admin.route');
 
 //database connection
 /*const mongoose = require('mongoose');
-let dbURL = 'mongodb+srv://uddogtahat:<uddogtahat12345>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
+let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
+//let dbURL = 'mongodb+srv://uddogtahat:<uddogtahat1234>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
 let mongoDB = process.env.MONGODB_URI || dbURL;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on('error',console.error.bind(console,'MongoDb Connection error: '));*/
-const MongoClient = require('mongodb').MongoClient;
+/*const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://uddogtahat:<uddogtahat1234>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
   client.close();
-});
+});*/
 
 var app = express();
+var helmet = require('helmet');
 var http = require('http').Server(app);
+const jwt = require('jsonwebtoken');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-/*app.use(session({
+app.use(session({
   secret: 'uddogtahat5546',
   saveUninitialized: true
-}))*/
+}))
+app.use(helmet());
 
 /*app.use(session({
   secret: 'secret',
@@ -51,7 +57,7 @@ app.use('/', indexRouter);
 app.use('/applicant', applicantRouter);
 app.use('/admin', adminRouter);
 
-//session
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
