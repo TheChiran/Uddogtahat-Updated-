@@ -11,7 +11,7 @@ var adminRouter = require('./routes/admin.route');
 //database connection
 const mongoose = require('mongoose');
 //let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
-let dbURL = 'mongodb+srv://uddogtahat:uddogtahat54321@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
+let dbURL = 'mongodb+srv://uddogtahat:uddogtahat54321@cluster0-gsey2.mongodb.net/uddogtahat?retryWrites=true&w=majority';
 let mongoDB = process.env.MONGODB_URI || dbURL;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;

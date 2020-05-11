@@ -1029,8 +1029,11 @@ exports.changeUserPassword = function(req,res){
     let oldpassword = req.body.oldPassword;
     let adminOldPassword = Admin.find().limit(1);
 
+
     adminOldPassword.exec(function(err,oldPass){
         if(err) throw err;
+        console.log(oldPass[0].password);
+        console.log(oldpassword);
         bcrypt.compare(oldpassword,oldPass[0].password,function (err,response) {
             if(err){
                 res.send('Password Did Not Match with the previous one! Please Try Again!');
