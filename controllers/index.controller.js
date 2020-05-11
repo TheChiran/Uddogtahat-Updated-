@@ -27,8 +27,7 @@ let logo = Logo.find().limit(1).sort({'_id':-1});
 let async = require('async');
 
 exports.index = function(req,res,next){
-    res.send('hello world')
-    /*let quoteQuery = Quotes.find().limit(3).sort({'_id':-1});
+    let quoteQuery = Quotes.find().limit(3).sort({'_id':-1});
     let committeeQuery = Committee.find().limit(3).sort({'_id':-1}).select({"image":1
     ,"name":1,"companyname":1,"designation":1});
     let companiesQuery = Company.find({"approval":"1"}).limit(5).sort({'_id':-1}).select({
@@ -41,10 +40,10 @@ exports.index = function(req,res,next){
     let eventQuery = Event.find({'eventType':'Upcoming'}).limit(4).select({"name": 1,"date": 1}).sort({'_id':-1});
     let eventBackgroundQuery = EventSectionBackground.find().limit(1).sort({'_id':-1});
     let blogQuery = Activity.find().limit(3).select({"image": 1,"title": 1}).sort({'_id':-1});
-    let sliderQuery = HomePageSlider.find().limit(5).sort({'_id':-1});*/
+    let sliderQuery = HomePageSlider.find().limit(5).sort({'_id':-1});
 
     /* Get Rid of Callback Hell async(parallel)*/
-   /* async.parallel({
+    async.parallel({
         pageTitle: function(callback){
           webTitle.exec()
               .then((title)=>{
@@ -217,7 +216,7 @@ exports.index = function(req,res,next){
             slider: indexData.slidersection,
             title: indexData.pageTitle
         })
-    })*/
+    })
 
     /* Get Rid of Callback Hell async(parallel)*/
 

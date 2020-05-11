@@ -9,22 +9,29 @@ var applicantRouter = require('./routes/applicant.route');
 var adminRouter = require('./routes/admin.route');
 
 //database connection
-/*const mongoose = require('mongoose');
-let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
-//let dbURL = 'mongodb+srv://uddogtahat:<uddogtahat1234>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
+const mongoose = require('mongoose');
+//let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
+let dbURL = 'mongodb+srv://uddogtahat:uddogtahat54321@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority';
 let mongoDB = process.env.MONGODB_URI || dbURL;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
-db.on('error',console.error.bind(console,'MongoDb Connection error: '));*/
+db.on('error',console.error.bind(console,'MongoDb Connection error: '));
 /*const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://uddogtahat:<uddogtahat1234>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
+
+// replace the uri string with your connection string.
+const uri = "mongodb+srv://uddogtahat:<uddogtahat54321>@cluster0-gsey2.mongodb.net/test?retryWrites=true&w=majority"
+MongoClient.connect(uri, function(err, client) {
+  if(err) {
+    console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+  }
+  console.log('Connected...');
+  const collection = client.db("uddogtahat").collection("devices");
   // perform actions on the collection object
   client.close();
 });*/
+
+
 
 var app = express();
 var helmet = require('helmet');
