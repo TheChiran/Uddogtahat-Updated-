@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title><%=title%> Admin</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/admin/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/admin/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+    <link href="/admin/css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/lib/advanced-datatable/css/jquery.dataTables.css">
+    <!-- =======================================================
+      Template Name: Dashio
+      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+      Author: TemplateMag.com
+      License: https://templatemag.com/license/
+    ======================================================= -->
+    <script>
+        function memberApprove(mobile){
+            $.ajax({
+                type:'post',
+                url:'/applicant/approve/'+mobile,
+                data:{
+                    approval:1
+                },
+                success:function(response){
+                    document.getElementById('msgBox').style="display: block";
+                    document.getElementById('msg').innerHTML=response;
+                }
+
+            })
+            return false;
+        }
+        function memberDelete(mobile){
+            $.ajax({
+                type:'post',
+                url:'/applicant/delete/'+mobile,
+                success:function(response){
+                    document.getElementById('msgBox').style="display: block";
+                    document.getElementById('msg').innerHTML=response;
+                }
+
+            })
+            return false;
+        }
+    </script>
+</head>
+
+<body style="font-size: 15px">
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation" style="background: rgba(255,255,255,0.7)"></div>
+        </div>
+        <!--logo start-->
+        <a href="/admin" class="logo"><b><%=title%> Dashboard</b></a>
+        <!--logo end-->
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="logout" href="/admin/logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href=""><img src="/uploads/admin/<%=userimage%>" class="img-circle" style="width: 100px;height: 100px"></a></p>
+                <h5 class="centered"><%=username%></h5>
+                <li class="mt">
+                    <a href="/admin">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Home Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/logo-upload">
+                                <span>Upload Logo</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/quotes">
+                                <span>Quote Section</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-about">
+                                <span>About Section</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-event">
+                                <span>Event Section <br>Background</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/homePageSlider">
+                                <span>Slider Section</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        <span>Gallery Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/gallary">
+                                <span>Upload</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <span>Activities Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/activities">
+                                <span>Post</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/activityPageHeader">
+                                <span>Header Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;" class="active">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>Membership</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/member-requests">
+                                <span>Requests</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        <span>Contact Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/contact-page">
+                                <span>Post Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Event Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/event-page">
+                                <span>Post</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin/manage-events">
+                                <span>Manage</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="/admin/about-page">
+                        <i class="fa fa-book"></i>
+                        <span>About Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/social-accounts">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span>Social Accounts</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/committee">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <span>Committee Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/setting">
+                        <i class="fa fa-tasks"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <!-- page start-->
+            <div class="row" style="margin: 25px 0px">
+                <div class="col-md-4">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerMember">
+                        Add New Member
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <div id="msgBox" class="alert alert-success" style="display: none">
+                        <h2 id="msg" align="center"></h2>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row mt">
+                <div class="col-md-12">
+                    <!-- Modal -->
+                    <div class="modal fade" id="registerMember" tabindex="-1" role="dialog" aria-labelledby="registerMember" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add New Member</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data"
+                                          method="post"
+                                          action="/admin/member-register-1"
+                                          class="form-horizontal" >
+                                        <table class="table">
+                                            <tr>
+                                                <td>Applicant Name</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="First Name"
+                                                           id="inputFirstName"
+                                                           name="firstname" ></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Middle Name"
+                                                           name="middlename"
+                                                           id="inputMiddleName"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Last Name"
+                                                           id="inputSecondName"
+                                                           name="lastname" ></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Father's Name</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Father's Name"
+                                                           id="inputFatherName"
+                                                           name="fathersname" ></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Designation</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Designation"
+                                                           id="inputDesignation"
+                                                           name="designation" ></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Organization</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Organization Name"
+                                                           id="inputOrganization"
+                                                           name="organization" ></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mailing Address</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="City"
+                                                           id="inputCity"
+                                                           name="city"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="State"
+                                                           id="inputState"
+                                                           name="state" ></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td colspan="2">
+                                                    <input type="text" class="form-control"
+                                                                       placeholder="Road, House, Street"
+                                                                       id="inputAddress"
+                                                                       name="address"></td>
+                                                <td>
+                                                    <input type="number" class="form-control"
+                                                           placeholder="Post Code"
+                                                           id="inputPO"
+                                                           name="postcode"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone Number</td>
+                                                <td><input type="number" class="form-control"
+                                                           placeholder="Office Phone"
+                                                           id="inputOfficePhone"
+                                                           name="officephn"></td>
+                                                <td><input type="number" class="form-control"
+                                                           placeholder="Residence Phone"
+                                                           id="inputResidencePhone"
+                                                           name="residencephn"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fax Number</td>
+                                                <td><input type="number" class="form-control"
+                                                           placeholder="Fax Number"
+                                                           id="inputFaxNumber"
+                                                           name="faxnum"></td>
+                                                <td><input type="number" class="form-control"
+                                                           placeholder="Mobile Number"
+                                                           id="inputMobileNumber"
+                                                           name="mobile"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td><input type="email" class="form-control"
+                                                           placeholder="abcd@example.com"
+                                                           id="inputEmailAddress"
+                                                           name="email"></td>
+                                                <td><input type="url" class="form-control"
+                                                           placeholder="URL"
+                                                           id="inputURL"
+                                                           name="url"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Permanent Address</td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="District"
+                                                           id="inputDistrict"
+                                                           name="district"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Upazila"
+                                                           id="inputUpazila"
+                                                           name="upazila"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Post Office"
+                                                           id="inputPostOffice"
+                                                           name="postoffice"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Village"
+                                                           id="inputVillage"
+                                                           name="village"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Road"
+                                                           id="inputRoad"
+                                                           name="road"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Block"
+                                                           id="inputBlock"
+                                                           name="block"></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="House"
+                                                           id="inputHouse"
+                                                           name="house"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Post Code"
+                                                           id="PermanetAddressPostCode"
+                                                           name="permanentpostcode"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Nationality"
+                                                           id="inputNationality"
+                                                           name="nationality"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Blood Group"
+                                                           id="inputBloodGroup"
+                                                           name="blood_group"></td>
+                                                <td><input type="text" class="form-control"
+                                                           placeholder="Date Of Birth"
+                                                           id="inputDOB"
+                                                           name="dob"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gender</td>
+                                                <td>
+                                                    <select name="gender" id="applicantGender">
+                                                        <option value="">Choose</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Please Upload Your Picture</td>
+                                                <td>Choose Your Picture</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td><input type="file" class="form-control-file"
+                                                           id="applicantImage" name="applicantimage"></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-sm btn-success" value="Next">
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-12">
+                    <table id="member_requests" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Picture</th>
+                            <th>URL</th>
+                            <th>Designation</th>
+                            <th>Organization</th>
+                            <th>More Information</th>
+                            <th style="text-align: center">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i =0;i<generalinfo.length;i++){%>
+                        <tr>
+                            <td><%=generalinfo[i].firstname%>
+                                <%=generalinfo[i].middlename%>
+                                <%=generalinfo[i].lastname%>
+                            </td>
+                            <td><%=generalinfo[i].email%></td>
+                            <td>
+                                <img src="/uploads/applicants/<%=generalinfo[i].image%>" alt=""
+                                     style="width: 80px;height: 80px">
+                            </td>
+                            <td>
+                                <a href="<%=generalinfo[i].url%>"><%=generalinfo[i].url%></a>
+                            </td>
+
+                            <td><%=officeinfo[i].designation%></td>
+                            <td><%=officeinfo[i].organization%></td>
+                            <td>
+                                <a href="/applicant/full-info/<%=generalinfo[i].mobile%>" class="btn btn-sm btn-primary" style="font-size: 18px">See More</a>
+                            </td>
+                            <td>
+                                <a href=""
+                                   class="btn btn-md btn-success" style="font-size: 15px" onclick="return memberApprove('<%=generalinfo[i].mobile%>')">Approve</a>
+                                <a href=""
+                                   class="btn btn-md btn-danger" style="font-size: 15px" onclick="return memberDelete('<%=generalinfo[i].mobile%>')">Delete Request</a>
+                            </td>
+                        </tr>
+                        <%}%>
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Picture</th>
+                            <th>URL</th>
+                            <th>Designation</th>
+                            <th>Organization</th>
+                            <th>More Information</th>
+                            <th  style="text-align: center">Actions</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="col-sm-2">
+                </div>
+            </div>
+        </section>
+        <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            <div class="credits">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | by <a href="http://softcareit.com/" target="_blank">SoftcareIT</a>
+            </div>
+            <a href="" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="/admin/lib/jquery/jquery.min.js"></script>
+<script src="/admin/lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="/admin/lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="/admin/lib/jquery.scrollTo.min.js"></script>
+<script src="/admin/lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="/admin/lib/common-scripts.js"></script>
+<script src="/admin/lib/advanced-datatable/js/jquery.dataTables.js"></script>
+<!--script for this page-->
+<script>
+    $(document).ready(function() {
+        $('#member_requests').DataTable();
+    } );
+</script>
+</body>
+
+</html>

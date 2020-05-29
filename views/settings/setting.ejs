@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title><%=title%> Admin </title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/admin/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/admin/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="/admin/css/style.css" rel="stylesheet">
+    <link href="/admin/css/style-responsive.css" rel="stylesheet">
+
+</head>
+<script>
+    function userNameChange(){
+        let newUserName = $('#newUserName').val();
+        if(newUserName==''){
+            document.getElementById('userError').style="display: block";
+            document.getElementById('userErrorMsg').innerHTML="Please Fill User Name";
+        }else{
+            $.ajax({
+                url:'/user/change/user-name',
+                type:'post',
+                data:{
+                    userName: newUserName
+                },
+                success:function(response){
+                    $('#newUserName').val('');
+                    document.getElementById('userSuccess').style="display: block";
+                    document.getElementById('userMsg').innerHTML=response;
+                }
+            })
+        }
+        /*document.getElementById('userSuccess').style="display: block";
+        document.getElementById('userMsg').innerHTML="You Clicked Me!";*/
+        return false;
+    }
+    function userPasswordChange(){
+        let oldPassword = $('#userOldPassword').val();
+        let newPassword = $('#userNewPassword').val();
+        let confirmPassword = $('#userNewPasswordConfirm').val();
+        if(oldPassword == '' || newPassword =='' || confirmPassword ==''){
+            $('#userOldPassword').val('');
+            $('#userNewPassword').val('');
+            $('#userNewPasswordConfirm').val('');
+            document.getElementById('userPasswordError').style="display: block";
+            document.getElementById('userPasswordSuccess').style="display: none";
+            document.getElementById('userPasswordErrorMsg').innerHTML="Please Fill All The Fields";
+        }else{
+            if(newPassword != confirmPassword){
+                $('#userOldPassword').val('');
+                $('#userNewPassword').val('');
+                $('#userNewPasswordConfirm').val('');
+                document.getElementById('userPasswordError').style="display: block";
+                document.getElementById('userPasswordSuccess').style="display: none";
+                document.getElementById('userPasswordErrorMsg').innerHTML="Please Make Sure Your New password and confirm password is match";
+            }else{
+                $.ajax({
+                    url:'/user/change/password',
+                    type:'post',
+                    data:{
+                        newPassword: confirmPassword,
+                        oldPassword: oldPassword
+                    },
+                    success:function(response){
+                        if(response === true){
+                            $('#userOldPassword').val('');
+                            $('#userNewPassword').val('');
+                            $('#userNewPasswordConfirm').val('');
+                            document.getElementById('userPasswordSuccess').style="display: block";
+                            document.getElementById('userPasswordError').style="display: none";
+                            document.getElementById('userPasswordMsg').innerHTML="Succesfully Changed Password";
+
+                        }else{
+                            document.getElementById('userPasswordError').style="display: block";
+                            document.getElementById('userPasswordSuccess').style="display: none";
+                            document.getElementById('userPasswordErrorMsg').innerHTML=response;
+                        }
+                    }
+                })
+            }
+        }
+        return false;
+    }
+</script>
+
+<body style="font-size: 15px">
+<section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="sidebar-toggle-box">
+            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+        </div>
+        <!--logo start-->
+        <a href="index.html" class="logo"><b><%=title%> Dashboard</b></a>
+        <!--logo end-->
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="logout" href="/admin/logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN SIDEBAR MENU
+        *********************************************************************************************************************************************************** -->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered"><a href=""><img src="/uploads/admin/<%=userimage%>" class="img-circle" style="width: 100px;height: 100px"></a></p>
+                <h5 class="centered"><%=username%></h5>
+                <li class="mt">
+                    <a href="/admin">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Home Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/logo-upload">
+                                <span>Upload Logo</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/quotes">
+                                <span>Quote Section</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-about">
+                                <span>About Section</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin/home-page-event">
+                                <span>Event Section <br>Background</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/homePageSlider">
+                                <span>Slider Section</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        <span>Gallery Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/gallary">
+                                <span>Upload</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <span>Activities Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/activities">
+                                <span>Post</span>
+                            </a>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/admin/activityPageHeader">
+                                <span>Header Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>Membership</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/member-requests">
+                                <span>Requests</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        <span>Contact Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/contact-page">
+                                <span>Post Contents</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-desktop"></i>
+                        <span>Event Page</span>
+                    </a>
+                    <ul class="sub">
+                        <li class="sub-menu">
+                            <a href="/admin/event-page">
+                                <span>Post</span>
+                            </a>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="/admin//manage-events">
+                                <span>Manage</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="/admin/about-page">
+                        <i class="fa fa-book"></i>
+                        <span>About Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/social-accounts">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span>Social Accounts</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/committee">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <span>Committee Page</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
+                    <a href="/admin/setting"  class="active">
+                        <i class="fa fa-tasks"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <h2 id="msg"></h2>
+            <!-- page start-->
+            <div class="row mt" style="margin: 25px 0px">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div id="statusBox" style="display: none">
+                        <span id="status" class="alert-success" style="padding: 15px 80px;background: #D4EDDA!important;color: #155724;font-weight: bold"></span>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row mt">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <h2 style="text-transform: uppercase;text-align: center;margin: 50px 0">Admin Settings</h2>
+                    <form action="" class="form-horizontal style-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3">User Name</label>
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3"><%=username%></label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                            data-toggle="modal" data-target="#changeUserNameModal">Change</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3">Password</label>
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3"></label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                            data-toggle="modal" data-target="#changeUserPasswordModal">Change</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3">Profile Picture</label>
+                                <label for="" class="col-md-3 col-lg-2 col-sm-3"></label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                            data-toggle="modal" data-target="#changeUserProfilePictureModal">Change</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Change User Name Modal -->
+                    <div class="modal fade" id="changeUserNameModal" tabindex="-1" role="dialog" aria-labelledby="changeUserNameModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Change Your User Name</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-success" id="userSuccess" style="display: none">
+                                        <h2 id="userMsg"></h2>
+                                    </div>
+                                    <div class="alert alert-warning" id="userError" style="display: none">
+                                        <h2 id="userErrorMsg"></h2>
+                                    </div>
+                                    <form action="" class="form-horizontal style-form">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-3 col-lg-3 col-sm-3">New User Name</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="newUserName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="return userNameChange()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Change User Name Modal -->
+
+                    <!-- Change User Password Modal -->
+                    <div class="modal fade" id="changeUserPasswordModal" tabindex="-1" role="dialog" aria-labelledby="changeUserPasswordModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Change Password</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-success" id="userPasswordSuccess" style="display: none">
+                                        <h2 id="userPasswordMsg"></h2>
+                                    </div>
+                                    <div class="alert alert-warning" id="userPasswordError" style="display: none">
+                                        <h2 id="userPasswordErrorMsg"></h2>
+                                    </div>
+                                    <form class="form-horizontal style-form">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-3 col-lg-3 col-sm-3">Old Password</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" class="form-control" id="userOldPassword">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-3 col-lg-3 col-sm-3">New Password</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" class="form-control" id="userNewPassword">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-3 col-lg-3 col-sm-3">Confirm Password</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" class="form-control" id="userNewPasswordConfirm">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-sm btn-primary" onclick="return userPasswordChange()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Change User Password Modal -->
+
+                    <!-- Change User Profile Picture Modal -->
+                    <div class="modal fade" id="changeUserProfilePictureModal" tabindex="-1" role="dialog" aria-labelledby="changeUserProfilePictureModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Change Profile Picture</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="uploadForm" enctype="multipart/form-data"
+                                          method="post"
+                                          action="/user/change/profile-picture"
+                                          class="form-horizontal style-form">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <div id="statusBox" style="display: none">
+                                                    <span id="status" class="alert-success" style="padding: 15px 80px;background: #D4EDDA!important;color: #155724;font-weight: bold"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="" class="col-md-4 col-lg-4 col-sm-4">Change Profile Picture</label>
+                                                <div class="col-md-6">
+                                                    <input type="file" name="adminProfilePicture" id="adminProfilePicture" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" value="Save" class="btn btn-sm btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Change User Profile Picture Modal -->
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        </section>
+        <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            <div class="credits">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | by <a href="http://softcareit.com/" target="_blank">SoftcareIT</a>
+            </div>
+            <a href="" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
+</section>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="/admin/lib/jquery/jquery.min.js"></script>
+<script src="/admin/lib/bootstrap/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript" src="/admin/lib/jquery.dcjqaccordion.2.7.js"></script>
+<script src="/admin/lib/jquery.scrollTo.min.js"></script>
+<script src="/admin/lib/jquery.nicescroll.js" type="text/javascript"></script>
+<!--common script for all pages-->
+<script src="/admin/lib/common-scripts.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<!--script for this page-->
+<script>
+    $(document).ready(function() {
+        $('#uploadForm').submit(function() {
+            $("#status").empty().text("File is uploading...");
+            $(this).ajaxSubmit({
+                error: function(xhr) {
+                    status('Error: ' + xhr.status);
+                },
+                success: function(response) {
+                    $('#adminProfilePicture').val('');
+                    //document.getElementById('statusBox').style="display: block";
+                    //$("#status").empty().text(response);
+                    alert(response);
+                    //console.log(response);
+                }
+            });
+            //Code to disable the page refresh.
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>
