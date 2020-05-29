@@ -134,7 +134,7 @@ exports.setNewUser = function(req,res){
                 });
                 newAdmin.save(function(err){
                     if(err) throw err;
-                    res.redirect('/admin/logout');
+                    res.redirect('/user/logout');
                 })
             }
         })
