@@ -32,11 +32,11 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b><%=title%> Dashboard</b></a>
+        <a href="/user/dashboard" class="logo"><b><%=title%> Dashboard</b></a>
         <!--logo end-->
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="/admin/logout">Logout</a></li>
+                <li><a class="logout" href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -51,149 +51,8 @@
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href=""><img src="/uploads/admin/<%=userimage%>" class="img-circle" style="width: 100px;height: 100px"></a></p>
                 <h5 class="centered"><%=username%></h5>
-                <li class="mt">
-                    <a href="/admin">
-                        <i class="fa fa-dashboard"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-desktop"></i>
-                        <span>Home Page</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/logo-upload">
-                                <span>Upload Logo</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="/admin/quotes">
-                                <span>Quote Section</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="/admin/home-page-about">
-                                <span>About Section</span>
-                            </a>
-                        </li>
 
-                        <li class="sub-menu">
-                            <a href="/admin/home-page-event">
-                                <span>Event Section <br>Background</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="/admin/homePageSlider">
-                                <span>Slider Section</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                        <span>Gallery Page</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/gallary">
-                                <span>Upload</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="javascript:;" class="active">
-                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
-                        <span>Activities Page</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/activities">
-                                <span>Post</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="/admin/activityPageHeader">
-                                <span>Header Contents</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-users" aria-hidden="true"></i>
-                        <span>Membership</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/member-requests">
-                                <span>Requests</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-address-book" aria-hidden="true"></i>
-                        <span>Contact Page</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/contact-page">
-                                <span>Post Contents</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-desktop"></i>
-                        <span>Event Page</span>
-                    </a>
-                    <ul class="sub">
-                        <li class="sub-menu">
-                            <a href="/admin/event-page">
-                                <span>Post</span>
-                            </a>
-                        </li>
-
-                        <li class="sub-menu">
-                            <a href="/admin/manage-events">
-                                <span>Manage</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="/admin/about-page">
-                        <i class="fa fa-book"></i>
-                        <span>About Page</span>
-                    </a>
-                </li>
-                <li class="sub-menu">
-                    <a href="/admin/social-accounts">
-                        <i class="fa fa-globe" aria-hidden="true"></i>
-                        <span>Social Accounts</span>
-                    </a>
-                </li>
-                <li class="sub-menu">
-                    <a href="/admin/committee">
-                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        <span>Committee Page</span>
-                    </a>
-                </li>
-                <li class="sub-menu">
-                    <a href="/admin/setting">
-                        <i class="fa fa-tasks"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                <% include ../partials/dashboardnavbar %>
             </ul>
             <!-- sidebar menu end-->
         </div>

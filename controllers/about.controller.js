@@ -94,7 +94,8 @@ exports.about_page=async function(req,res,next){
     res.render('About/about-page',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'About'
     })
 }
 

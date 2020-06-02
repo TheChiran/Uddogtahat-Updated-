@@ -89,7 +89,8 @@ exports.getContactPage=function(req,res){
     res.render('Contact/contact-page',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Contact'
     })
 }
 

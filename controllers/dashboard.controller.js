@@ -17,7 +17,8 @@ exports.dashboard = function(req,res,next){
                     userimage: sess.userimage,
                     totalMembers: totalMembers,
                     totalRequests: totalRequests,
-                    isNew: 'Yes'
+                    isNew: 'Yes',
+                    page_name: 'Dashboard'
                 })
             })
         })
@@ -32,7 +33,8 @@ exports.dashboard = function(req,res,next){
                     userimage: sess.userimage,
                     totalMembers: totalMembers,
                     totalRequests: totalRequests,
-                    isNew: ''
+                    isNew: '',
+                    page_name: 'Dashboard'
                 })
             })
         })

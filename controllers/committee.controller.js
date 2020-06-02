@@ -275,7 +275,8 @@ exports.committeePostPage=function(req,res){
     res.render('Committee/committee-page',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Committee'
     })
 }
 

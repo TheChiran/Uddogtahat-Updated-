@@ -455,7 +455,8 @@ exports.memberRequestList=function(req,res){
             officeinfo: data.officeInfo,
             title: sess.title,
             username: sess.username,
-            userimage: sess.userimage
+            userimage: sess.userimage,
+            page_name: 'Applicant'
         })
     })
     /*applicant_general_info.exec(function(err,general_info){
@@ -759,7 +760,8 @@ exports.memberFullInfo=function(req,res){
             permanentAddress: applicant.permanentAddress,
             title: sess.title,
             username: sess.username,
-            userimage: sess.userimage
+            userimage: sess.userimage,
+            page_name: 'Applicant'
         })
     })
     /*Applicant_mailing_address.find({'mobile': mobile},function (err,mailing_address) {

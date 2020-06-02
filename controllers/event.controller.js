@@ -253,7 +253,8 @@ exports.getEventPage=function(req,res){
     res.render('Event/event',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Event'
     });
 }
 
@@ -302,7 +303,8 @@ exports.manageEvents=function(req,res){
             events: eventDatas,
             title: sess.title,
             username: sess.username,
-            userimage: sess.userimage
+            userimage: sess.userimage,
+            page_name: 'Event'
         })
     })
 }

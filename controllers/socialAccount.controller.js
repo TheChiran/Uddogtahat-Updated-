@@ -27,7 +27,8 @@ exports.getSocialAccountPage = function(req,res){
     res.render('Social-Account/social-accounts',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Social'
     })
 }
 

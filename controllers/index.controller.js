@@ -294,7 +294,8 @@ exports.logoUpload=function(req,res){
     res.render('Home/logoinput',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Home'
     })
 }
 
@@ -326,7 +327,8 @@ exports.quotePage=function(req,res){
     res.render('Home/quotes',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Home'
     })
 }
 
@@ -352,7 +354,8 @@ exports.homePageEvent = function(req,res){
     res.render('Home/home-page-event-background',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Home'
     })
 }
 
@@ -377,7 +380,8 @@ exports.homePageAbout = function(req,res){
     res.render('Home/homePageAboutSection',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Home'
     })
 }
 
@@ -451,7 +455,8 @@ exports.homePageSlider = function(req,res){
     res.render('Home/homePageSlider',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Home'
     })
 }
 

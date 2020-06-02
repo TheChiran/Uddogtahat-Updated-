@@ -362,7 +362,8 @@ exports.getActivityPage = function(req,res){
             categories: categories,
             title: sess.title,
             username: sess.username,
-            userimage: sess.userimage
+            userimage: sess.userimage,
+            page_name: 'Activity'
         })
     })
 }
@@ -404,7 +405,8 @@ exports.categoryPage = function(req,res){
     res.render('Activities/category',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Activity'
     })
 }
 
@@ -432,7 +434,8 @@ exports.activityPageHeader = function(req,res){
     res.render('Activities/activityPageHeader',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Activity'
     })
 }
 

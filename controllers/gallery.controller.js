@@ -276,7 +276,8 @@ exports.galleryUpload = function(req,res){
     res.render('Gallery/gallery-upload',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Gallery'
     })
 }
 

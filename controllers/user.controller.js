@@ -59,7 +59,8 @@ exports.userDashboard = function(req,res,next){
                 userimage: sess.userimage,
                 totalMembers: data.totalMember,
                 totalRequests: data.totalRequest,
-                isNew: 'Yes'
+                isNew: 'Yes',
+                page_name: 'Dashboard'
             })
         })
         /*totalMembersQuery.exec(function(err,totalMembers){
@@ -104,7 +105,8 @@ exports.userDashboard = function(req,res,next){
                 userimage: sess.userimage,
                 totalMembers: data.totalMember,
                 totalRequests: data.totalRequest,
-                isNew: ''
+                isNew: '',
+                page_name: 'Dashboard'
             })
         })
         /*totalMembersQuery.exec(function(err,totalMembers){
@@ -130,6 +132,7 @@ exports.signIn = function(req,res){
     res.render('User/sign-in')
 }
 
+//to sign up
 exports.signInPost = function(req,res){
     sess = req.session;
     let email = req.body.email;
@@ -181,6 +184,7 @@ exports.signInPost = function(req,res){
     })
 }
 
+//to set user when a user first enter using default password
 exports.setNewUser = async function(req,res){
     sess = req.session;
     adminProfilePictureUpload(req,res,async function(err){
@@ -224,7 +228,8 @@ exports.settings = function(req,res){
     res.render('settings/setting',{
         title: sess.title,
         username: sess.username,
-        userimage: sess.userimage
+        userimage: sess.userimage,
+        page_name: 'Setting'
     })
 }
 
