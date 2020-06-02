@@ -45,7 +45,7 @@ let logoStorage = multer.diskStorage({
         });
     }
 });
-let logoUpload = multer({storage:logoStorage}).single('companylogo');
+let companyLogoUpload = multer({storage:logoStorage}).single('companylogo');
 
 let memberPictureStorage = multer.diskStorage({
     destination:function (req,file,callback) {
@@ -61,72 +61,154 @@ let memberPictureStorage = multer.diskStorage({
 let memberUpload = multer({storage:memberPictureStorage}).single('applicantimage');
 
 /*====================File Upload Ends=======================*/
-exports.dashboard = function(req,res,next){
-    sess = req.session;
+let async = require('async');
 
-    let totalMembersQuery = Applicant_general_info.countDocuments({"approval":"1"});
-    let totalMemberRequestQuery = Applicant_general_info.countDocuments({"approval":"0"});
-
-    if(sess.isNew){
-        totalMembersQuery.exec(function(err,totalMembers){
-            if(err) throw err;
-            totalMemberRequestQuery.exec(function(err,totalRequests){
-                if(err) throw err;
-                res.render('Dashboard/dashboard',{
-                    title: sess.title,
-                    username: sess.username,
-                    userimage: sess.userimage,
-                    totalMembers: totalMembers,
-                    totalRequests: totalRequests,
-                    isNew: 'Yes'
+//to get register page
+exports.registerPage = function (req,res) {
+    async.parallel({
+        webTitle: function (callback) {
+            webTitleQuery.exec()
+                .then((data)=>{
+                    callback(null,data)
                 })
-            })
-        })
-    }else{
-        totalMembersQuery.exec(function(err,totalMembers){
-            if(err) throw err;
-            totalMemberRequestQuery.exec(function(err,totalRequests){
-                if(err) throw err;
-                res.render('Dashboard/dashboard',{
-                    title: sess.title,
-                    username: sess.username,
-                    userimage: sess.userimage,
-                    totalMembers: totalMembers,
-                    totalRequests: totalRequests,
-                    isNew: ''
+                .catch((error)=>{
+                    throw error;
                 })
-            })
-        })
-    }
-
-}
-
-
-exports.register = function (req,res) {
-    webTitleQuery.exec(function(err,title){
+        },
+        socialAccountList: function(callback){
+            socialAccountsQuery.exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo: function(callback){
+            logo.exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,applicantPageData){
         if(err) throw err;
-        socialAccountsQuery.exec(function(err,socialAccounts){
-            if(err) throw err;
-            logo.exec(function(err,logo){
-                if(err) throw err;
-                res.render('Applicant/register',{
-                    title: title,
-                    socialAccounts: socialAccounts,
-                    logo: logo
-                })
-            })
+        res.render('Applicant/register',{
+            title: applicantPageData.webTitle,
+            socialAccounts: applicantPageData.socialAccountList,
+            logo: applicantPageData.logo,
+            page_name: 'Applicant-Register'
         })
     })
 }
 
-exports.register_submit = function (req,res) {
-    upload(req,res,function(err){
+
+
+//to submit first form
+exports.register_submit = async function (req,res,next) {
+    upload(req,res,async function(err){
         const mobilenum = req.body.mobile;
         const image= req.file.filename;
-        var serialNum = Company.countDocuments();
-        var serial;
+        //var serialNum = Company.countDocuments().exec();
+        //var totalSerialNum = Company.countDocuments().exec();
+        //var serial=totalSerialNum+1;
         if(err) throw err;
-        serialNum.exec(function (err,totalserial) {
+
+        let ApplicantGeneralInfo = new Applicant_general_info();
+        ApplicantGeneralInfo.mobile=req.body.mobile;
+        ApplicantGeneralInfo.firstname=req.body.firstname;
+        ApplicantGeneralInfo.middlename=req.body.middlename;
+        ApplicantGeneralInfo.lastname=req.body.lastname;
+        ApplicantGeneralInfo.fathersname=req.body.fathersname;
+        ApplicantGeneralInfo.dob=req.body.dob;
+        ApplicantGeneralInfo.blood_group=req.body.blood_group;
+        ApplicantGeneralInfo.nationality=req.body.nationality;
+        ApplicantGeneralInfo.gender=req.body.gender;
+        ApplicantGeneralInfo.email=req.body.email;
+        ApplicantGeneralInfo.url=req.body.url;
+        ApplicantGeneralInfo.image=image;
+        ApplicantGeneralInfo.approval='0';
+
+        let ApplicantMailingAddress = new Applicant_mailing_address();
+        ApplicantMailingAddress.mobile=req.body.mobile;
+        ApplicantMailingAddress.city=req.body.city;
+        ApplicantMailingAddress.state=req.body.state;
+        ApplicantMailingAddress.address=req.body.address;
+        ApplicantMailingAddress.postcode=req.body.postcode;
+        ApplicantMailingAddress.approval='0';
+
+        let ApplicantOfficeInfo = new Applicant_office_info();
+        ApplicantOfficeInfo.applicantmobile=req.body.mobile;
+        ApplicantOfficeInfo.officephone=req.body.officephn;
+        ApplicantOfficeInfo.recidencephone=req.body.residencephn;
+        ApplicantOfficeInfo.officefax=req.body.faxnum;
+        ApplicantOfficeInfo.designation=req.body.designation;
+        ApplicantOfficeInfo.organization=req.body.organization;
+        ApplicantOfficeInfo.approval='0';
+
+        let ApplicantPermanentAddress = new Applicant_permanent_address();
+        ApplicantPermanentAddress.applicantmobile=req.body.mobile;
+        ApplicantPermanentAddress.district=req.body.district;
+        ApplicantPermanentAddress.upazila=req.body.upazila;
+        ApplicantPermanentAddress.post_office=req.body.postoffice;
+        ApplicantPermanentAddress.village=req.body.village;
+        ApplicantPermanentAddress.road=req.body.road;
+        ApplicantPermanentAddress.block=req.body.block;
+        ApplicantPermanentAddress.house=req.body.house;
+        ApplicantPermanentAddress.post_code=req.body.permanentpostcode;
+        ApplicantPermanentAddress.approval='0';
+
+        try{
+            await ApplicantGeneralInfo.save();
+            await ApplicantMailingAddress.save();
+            await ApplicantOfficeInfo.save();
+            await ApplicantPermanentAddress.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        async.parallel({
+            webTitle: function(callback){
+                webTitleQuery.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            },
+            logo: function (callback) {
+                socialAccountsQuery.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+
+            },
+            socialAccounts: function(callback){
+                logo.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            }
+        },function (err,applicantData) {
+            if(err) throw err;
+            res.render('Applicant/register-form-1',{
+                mobile:mobilenum,
+                title: applicantData.webTitle,
+                socialAccounts: applicantData.socialAccounts,
+                logo: applicantData.logo,
+                page_name: 'Applicant-Register'
+            })
+        })
+        /*serialNum.exec(function (err,totalserial) {
             if(err) throw err;
             serial=totalserial+1;
             let ApplicantGeneralInfo = new Applicant_general_info({
@@ -206,18 +288,74 @@ exports.register_submit = function (req,res) {
                     })
                 })
             })
-        })
+        })*/
     })
 }
 
-exports.registerForm1_submit = function (req,res) {
-    logoUpload(req,res,function(err){
+//to submit applicant company information
+exports.registerForm1Submit = async function (req,res) {
+    companyLogoUpload(req,res,async function(err){
         if(err) throw err;
         const image=req.file.filename;
-        console.log(image);
         const mobileid = req.body.primarymobile;
-        const serialnum = req.body.primaryserial;
-        let company = new Company({
+        //const serialnum = req.body.primaryserial;
+        let company = new Company();
+        company.applicantmobile=req.body.primarymobile;
+        company.companyname=req.body.companyname;
+        company.address1=req.body.companyaddress1;
+        company.address2=req.body.companyaddress2;
+        company.cellphone=req.body.cellphone;
+        company.telephone=req.body.telephone;
+        company.email=req.body.email;
+        company.website=req.body.website;
+        company.logo=image;
+        company.approval='0';
+        try{
+            await company.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        async.parallel({
+            webTitle: function(callback){
+                webTitleQuery.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            },
+            logo: function (callback) {
+                socialAccountsQuery.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+
+            },
+            socialAccounts: function(callback){
+                logo.exec()
+                    .then((data)=>{
+                        callback(null,data)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            }
+        },function (err,companyData) {
+            if(err) throw err;
+            res.render('Applicant/register-form-2',{
+                mobile:mobileid,
+                title: companyData.webTitle,
+                socialAccounts: companyData.socialAccounts,
+                logo: companyData.logo,
+                page_name: 'Applicant-Register'
+            })
+        })
+        /*let company = new Company({
             serial:serialnum,
             applicantmobile: req.body.primarymobile,
             companyname: req.body.companyname,
@@ -248,16 +386,29 @@ exports.registerForm1_submit = function (req,res) {
                     })
                 })
             })
-        })
+        })*/
     })
 }
 
-exports.registerForm2_submit = function (req,res) {
+
+//to submit if there is any previous membership
+exports.registerForm2Submit = async function (req,res,next) {
     let membershipNo = req.body.membershipno;
-    if(membershipNo ==''){
+    if(membershipNo ===''){
         res.send('Please Wait for our Confirmation!');
     }else{
-        let applicant_membership = new Membership({
+        let applicant_membership = new Membership();
+        applicant_membership.membershipno=req.body.membershipno;
+        applicant_membership.mobile=req.body.mobile;
+        //applicant_membership.serial=req.body.serial;
+        try{
+            await applicant_membership.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('Please Wait for our Confirmation!');
+        /*let applicant_membership = new Membership({
             membershipno: req.body.membershipno,
             mobile: req.body.mobile,
             serial: req.body.serial
@@ -265,18 +416,49 @@ exports.registerForm2_submit = function (req,res) {
         applicant_membership.save(function(err){
             if(err) throw err;
             res.send('Please Wait for our Confirmation!');
-        })
+        })*/
     }
 }
 
-exports.member_requests=function(req,res){
+//to get member request list
+exports.memberRequestList=function(req,res){
     let applicant_general_info = Applicant_general_info.find({"approval":"0"}).sort({'_id':-1}).select({
         "firstname":1,"middlename":1,"email":1,"url":1,"image":1,"mobile":1
     });
     let applicant_office_info = Applicant_office_info.find({"approval":"0"}).sort({'_id':-1}).select({
         "applicantmobile":1,"organization":1,"designation":1
     })
-    applicant_general_info.exec(function(err,general_info){
+
+    async.parallel({
+        generalInfo: function(callback){
+            applicant_general_info.exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        officeInfo: function(callback){
+            applicant_office_info.exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,data){
+        if(err) throw err;
+        res.render('Applicant/applicant-request',{
+            generalinfo:data.generalInfo,
+            officeinfo: data.officeInfo,
+            title: sess.title,
+            username: sess.username,
+            userimage: sess.userimage
+        })
+    })
+    /*applicant_general_info.exec(function(err,general_info){
         if(err) throw err;
         applicant_office_info.exec(function(err,office_info){
             if(err) throw err;
@@ -288,10 +470,11 @@ exports.member_requests=function(req,res){
                 userimage: sess.userimage
             })
         })
-    })
+    })*/
 }
 
-exports.add_new_member = function(req,res){
+//to get add new member page
+exports.addNewMemberPage = function(req,res){
     sess = req.session;
     res.render('Applicant/addMember',{
         title: sess.title,
@@ -300,15 +483,79 @@ exports.add_new_member = function(req,res){
     })
 }
 
-exports.member_register_1 = function(req,res){
+//to store member general information
+exports.memberRegister1 = async function(req,res,next){
     sess = req.session;
-    memberUpload(req,res,function(err){
+    memberUpload(req,res,async function(err){
         const mobilenum = req.body.mobile;
         const image= req.file.filename;
-        var serialNum = Company.countDocuments();
-        var serial;
+        var serialNum = await Company.countDocuments().exec();
+        var serial = serialNum+1;
         if(err) throw err;
-        serialNum.exec(function (err,totalserial) {
+        let ApplicantGeneralInfo = new Applicant_general_info();
+        ApplicantGeneralInfo.serial=serial;
+        ApplicantGeneralInfo.mobile=req.body.mobile;
+        ApplicantGeneralInfo.firstname=req.body.firstname;
+        ApplicantGeneralInfo.middlename=req.body.middlename;
+        ApplicantGeneralInfo.lastname=req.body.lastname;
+        ApplicantGeneralInfo.fathersname=req.body.fathersname;
+        ApplicantGeneralInfo.dob=req.body.dob;
+        ApplicantGeneralInfo.blood_group=req.body.blood_group;
+        ApplicantGeneralInfo.nationality=req.body.nationality;
+        ApplicantGeneralInfo.gender=req.body.gender;
+        ApplicantGeneralInfo.email=req.body.email;
+        ApplicantGeneralInfo.url=req.body.url;
+        ApplicantGeneralInfo.image=image;
+        ApplicantGeneralInfo.approval='0';
+
+        let ApplicantMailingAddress = new Applicant_mailing_address();
+        ApplicantMailingAddress.serial=serial;
+        ApplicantMailingAddress.mobile=req.body.mobile;
+        ApplicantMailingAddress.city=req.body.city;
+        ApplicantMailingAddress.state=req.body.state;
+        ApplicantMailingAddress.address=req.body.address;
+        ApplicantMailingAddress.postcode=req.body.postcode;
+        ApplicantMailingAddress.approval='0';
+
+        let ApplicantOfficeInfo = new Applicant_office_info();
+        ApplicantOfficeInfo.serial=serial;
+        ApplicantOfficeInfo.applicantmobile=req.body.mobile;
+        ApplicantOfficeInfo.officephone=req.body.officephn;
+        ApplicantOfficeInfo.recidencephone=req.body.residencephn;
+        ApplicantOfficeInfo.officefax=req.body.faxnum;
+        ApplicantOfficeInfo.designation=req.body.designation;
+        ApplicantOfficeInfo.organization=req.body.organization;
+        ApplicantOfficeInfo.approval='0';
+
+        let ApplicantPermanentAddress = new Applicant_permanent_address();
+        ApplicantPermanentAddress.serial=serial;
+        ApplicantPermanentAddress.applicantmobile=req.body.mobile;
+        ApplicantPermanentAddress.district=req.body.district;
+        ApplicantPermanentAddress.upazila=req.body.upazila;
+        ApplicantPermanentAddress.post_office=req.body.postoffice;
+        ApplicantPermanentAddress.village=req.body.village;
+        ApplicantPermanentAddress.road=req.body.road;
+        ApplicantPermanentAddress.block=req.body.block;
+        ApplicantPermanentAddress.house=req.body.house;
+        ApplicantPermanentAddress.post_code=req.body.permanentpostcode;
+        ApplicantPermanentAddress.approval='0';
+        try{
+            await ApplicantGeneralInfo.save();
+            await ApplicantMailingAddress.save();
+            await ApplicantOfficeInfo.save();
+            await ApplicantPermanentAddress.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.render('Applicant/member-register-1',{
+            mobile:mobilenum,
+            serial:serial,
+            title: sess.title,
+            username: sess.username,
+            userimage: sess.userimage
+        })
+        /*serialNum.exec(function (err,totalserial) {
             if(err) throw err;
             serial=totalserial+1;
             let ApplicantGeneralInfo = new Applicant_general_info({
@@ -379,18 +626,44 @@ exports.member_register_1 = function(req,res){
                     })
                 })
             })
-        })
+        })*/
     })
 }
 
-exports.member_register_2 = function(req,res){
+//to store company information
+exports.memberRegister2 = async function(req,res){
     sess = req.session;
-    companylogoUpload(req,res,function(err){
+    companyLogoUpload(req,res,async function(err){
         if(err) throw err;
         const image=req.file.filename;
         const mobileid = req.body.primarymobile;
         const serialnum = req.body.primaryserial;
-        let company = new Company({
+        let company = new Company();
+        company.serial=serialnum;
+        company.applicantmobile=req.body.primarymobile;
+        company.companyname=req.body.companyname;
+        company.address1=req.body.companyaddress1;
+        company.address2=req.body.companyaddress2;
+        company.cellphone=req.body.cellphone;
+        company.telephone=req.body.telephone;
+        company.email=req.body.email;
+        company.website=req.body.website;
+        company.logo=image;
+        company.approval='0';
+        try{
+            await company.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.render('Applicant/member-register-2',{
+            mobile:mobileid,
+            serial:serialnum,
+            title: sess.title,
+            username: sess.username,
+            userimage: sess.userimage
+        })
+        /*let company = new Company({
             serial:serialnum,
             applicantmobile: req.body.primarymobile,
             companyname: req.body.companyname,
@@ -412,17 +685,30 @@ exports.member_register_2 = function(req,res){
                 username: sess.username,
                 userimage: sess.userimage
             })
-        })
+        })*/
     })
 
 }
 
-exports.register_complete = function(req,res){
+//to store if there is any membership
+exports.registerComplete = async function(req,res,next){
     let membershipNo = req.body.membershipno;
     if(membershipNo ==''){
         res.send('New Member Added!');
     }else{
-        let applicant_membership = new Membership({
+        let applicantMembership = new Membership();
+        applicantMembership.membershipno=req.body.membershipno;
+        applicantMembership.mobile=req.body.mobile;
+        applicantMembership.serial=req.body.serial;
+
+        try{
+            await applicantMembership.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('New Member Added!');
+        /*let applicant_membership = new Membership({
             membershipno: req.body.membershipno,
             mobile: req.body.mobile,
             serial: req.body.serial
@@ -430,13 +716,53 @@ exports.register_complete = function(req,res){
         applicant_membership.save(function(err){
             if(err) throw err;
             res.send('New Member Added!');
-        })
+        })*/
     }
 }
 
-exports.member_full_info=function(req,res){
+
+//to check an applicants full information
+exports.memberFullInfo=function(req,res){
     var mobile = req.params.mobile;
-    Applicant_mailing_address.find({'mobile': mobile},function (err,mailing_address) {
+    async.parallel({
+        mailingAddress: function(callback){
+            Applicant_mailing_address.find({'mobile': mobile}).exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        companyAddress: function(callback){
+            Applicant_company_info.find({'applicantmobile': mobile}).exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        permanentAddress: function(callback){
+            Applicant_permanent_address.find({'applicantmobile':mobile}).exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,applicant){
+        res.render('Applicant/member-full-info',{
+            company_info:applicant.companyAddress,
+            mailing_address:applicant.mailingAddress,
+            permanentAddress: applicant.permanentAddress,
+            title: sess.title,
+            username: sess.username,
+            userimage: sess.userimage
+        })
+    })
+    /*Applicant_mailing_address.find({'mobile': mobile},function (err,mailing_address) {
         if(err) throw err;
         Applicant_company_info.find({'applicantmobile': mobile},function(err,company_info){
             if(err) throw err;
@@ -452,86 +778,77 @@ exports.member_full_info=function(req,res){
                 })
             })
         })
-    })
+    })*/
 }
 
-exports.member_approve=function(req,res){
-    let countApplicants = Applicant_general_info.countDocuments();
-    countApplicants.exec(function(err,totalCount){
-        if(err) throw err;
-        var serial=totalCount;
-        var mobile =req.params.mobile;
-        Applicant_general_info.updateOne({'mobile':mobile},
-            {
-                $set:{
-                    approval: req.body.approval,
-                    serial: serial
-                }
-            }
-            ,function(err){
-                if(err) throw err;
-                Applicant_office_info.updateOne({'applicantmobile':mobile},
-                    {
-                        $set:{
-                            approval: req.body.approval,
-                            serial: serial
-                        }
-                    }
-                    ,function(err){
-                        if(err) throw err;
-                        Applicant_mailing_address.updateOne({'mobile':mobile},
-                            {
-                                $set:{
-                                    approval: req.body.approval,
-                                    serial: serial
-                                }
-                            }
-                            ,function(err){
-                                if(err) throw err;
-                                Applicant_permanent_address.updateOne({'applicantmobile':mobile},
-                                    {
-                                        $set:{
-                                            approval: req.body.approval,
-                                            serial: serial
-                                        }
-                                    }
-                                    ,function(err){
-                                        if(err) throw err;
-                                        Applicant_company_info.updateOne({'applicantmobile':mobile},
-                                            {
-                                                $set:{
-                                                    approval: req.body.approval,
-                                                    serial: serial
-                                                }
-                                            }
-                                            ,function(err){
-                                                if(err) throw err;
-                                                res.send('Approved!');
-                                            })
-                                    })
-                            })
-                    })
-            })
-    })
+
+//to approve an applicant
+exports.memberApprove=async function(req,res){
+    let totalApplicant = await Applicant_general_info.find({'approval': '1'}).countDocuments().exec();
+    var serial=totalApplicant+1;
+    //console.log(serial)
+    var mobile =req.params.mobile;
+    let approval = req.body.approval;
+    try{
+        await Applicant_general_info.findOneAndUpdate({'mobile':mobile},
+            {$set:{approval: '1', serial: serial}}).exec();
+        await Applicant_office_info.findOneAndUpdate({'applicantmobile':mobile},
+            {$set:{approval: '1', serial: serial}}).exec();
+        await Applicant_mailing_address.findOneAndUpdate({'mobile':mobile},
+            {$set:{approval: '1', serial: serial}}).exec();
+        await Applicant_permanent_address.findOneAndUpdate({'applicantmobile':mobile},
+            {$set:{approval: '1', serial: serial}}).exec();
+        await Applicant_company_info.findOneAndUpdate({'applicantmobile':mobile},
+            {$set:{approval: '1', serial: serial}}).exec();
+        res.send('Member Approved!');
+
+    }
+    catch (error) {
+        throw error;
+    }
+
+
 }
 
-exports.member_delete = function(req,res){
-    //console.log(req.params.mobile);
-    //res.send("Deleted succesfully!");
-    Applicant_general_info.findOneAndRemove({'mobile':req.params.mobile},function(err){
-        if(err) throw err;
-        Applicant_mailing_address.findOneAndRemove({'mobile':req.params.mobile},function(err){
-            if(err) throw err;
-            Applicant_office_info.findOneAndRemove({'applicantmobie': req.params.mobile},function(err){
-                if(err) throw err;
-                Applicant_company_info.findOneAndRemove({'applicantmobile': req.params.mobile},function(err){
-                    if(err) throw err;
-                    Applicant_permanent_address.findOneAndRemove({'applicantmobile': req.params.mobile},function(err){
-                        if(err) throw err;
-                        res.send('Information removed successfully!')
-                    })
-                })
-            })
-        })
+//to delete an applicant
+exports.member_delete = async function(req,res,next){
+    const fs = require('fs')
+    let applicantImage =  await Applicant_general_info.find({'mobile':req.params.mobile}).select({'image': true}).exec();
+    let companyImage =  await Applicant_company_info.find({'applicantmobile':req.params.mobile}).select({'logo': true});
+    let applicantImageName;
+    let companyLogoName;
+    applicantImage.forEach(function (data) {
+        applicantImageName=data.image;
     })
+    companyImage.forEach(function (data) {
+        companyLogoName=data.logo;
+    })
+    const applicantFilepath = `./public/uploads/applicants/${applicantImageName}`;
+    const companyFilepath = `./public/uploads/companies/${companyLogoName}`;
+
+    fs.unlink(companyFilepath, (err) => {
+        if (err) {
+            throw err;
+        }
+        fs.unlink(applicantFilepath, (err) => {
+        if (err) {
+            throw err;
+        }
+
+    })
+    })
+
+
+    try{
+        await Applicant_general_info.findOneAndRemove({'mobile':req.params.mobile});
+        await Applicant_mailing_address.findOneAndRemove({'mobile':req.params.mobile});
+        await Applicant_office_info.findOneAndRemove({'applicantmobie':req.params.mobile});
+        await Applicant_company_info.findOneAndRemove({'applicantmobile':req.params.mobile});
+        await Applicant_permanent_address.findOneAndRemove({'applicantmobile':req.params.mobile});
+        res.send('Member removed successfully!');
+    }
+    catch (error) {
+        throw error;
+    }
+
 }

@@ -1,8 +1,7 @@
 //const Members = require('../model/applicant/applicant.general.info.model');
 const Company = require('../model/company/company.information.model');
-const Gallary = require('../model/gallary/gallary.model');
+const Gallery = require('../model/gallary/gallary.model');
 const Activity = require('../model/activities/activities.model');
-const Contact = require('../model/contact/contact.page.model');
 const Committee = require('../model/committee/committee.model');
 const Event = require('../model/events/events.model');
 const Social = require('../model/social-accounts/social_account.model');
@@ -13,8 +12,6 @@ const HomePageAboutSectionBackground = require('../model/homePage/about.section.
 const HomePageAboutSectionContents = require('../model/homePage/about.section.contents.model');
 const EventSectionBackground = require('../model/homePage/eventSectionBackground.model');
 const WebsiteTitle = require('../model/homePage/website.title.model');
-const ActivityPageHeader = require('../model/activities/activities.header.model');
-const ActivityCategory = require('../model/activities/category.model');
 let HomePageSlider = require('../model/homePage/slider.section.model');
 
 let webTitle = WebsiteTitle.find().limit(1).sort({'_id':-1});
@@ -26,6 +23,7 @@ let async = require('async');
 var multer = require('multer');
 var crypto=require('crypto');
 var fileExtension = require('file-extension');
+
 //to store logo of the website
 let logoStorage = multer.diskStorage({
     destination:function (req,file,callback) {
@@ -38,7 +36,7 @@ let logoStorage = multer.diskStorage({
     }
 });
 
-let uploadLogo = multer({storage:logoStorage}).single('logoImage');
+let uploadLogo = multer({storage:logoStorage}).single('logoImage'); //to store logo
 
 let quoteStorage = multer.diskStorage({
     destination:function (req,file,callback) {
@@ -51,7 +49,8 @@ let quoteStorage = multer.diskStorage({
     }
 });
 
-let uploadQuote = multer({storage:quoteStorage}).single('quoteIcon');
+//to store quote background
+let uploadQuote = multer({storage:quoteStorage}).single('quoteIcon'); //to store quote icon
 
 let eventSectionStorage = multer.diskStorage({
     destination:function (req,file,callback) {
@@ -64,6 +63,7 @@ let eventSectionStorage = multer.diskStorage({
     }
 });
 
+//to store background for event section
 let uploadEventSectionBackground = multer({storage:eventSectionStorage}).single('eventSectionBackground');
 
 let aboutContentStorage = multer.diskStorage({
@@ -77,6 +77,7 @@ let aboutContentStorage = multer.diskStorage({
     }
 });
 
+//to store background for about content
 let uploadAboutContent = multer({storage:aboutContentStorage}).single('aboutContentBackground');
 
 let homePageSliderStorage = multer.diskStorage({
@@ -90,61 +91,17 @@ let homePageSliderStorage = multer.diskStorage({
     }
 });
 
+//to store background for slider
 let homePageSliderUpload = multer({storage:homePageSliderStorage}).single('homePageSliderBg');
 
-exports.index = async function(req,res,next){
-    /*let quote = await Quotes.find().limit(3).sort({'_id':-1}).lean().exec();
-    let committee = await Committee.find().limit(3).sort({'_id':-1}).select({"image":1
-        ,"name":1,"companyname":1,"designation":1}).lean().exec();
-    let companies = await Company.find({"approval":"1"}).limit(5).sort({'_id':-1}).select({
-        "logo":1
-    }).lean().exec();
-    let gallary = await Gallary.find().limit(6).sort({'_id':-1}).lean().exec();
-    let homepageAboutSectionSkills = await HomePageAboutSectionSkills.find().sort({'_id':-1}).lean().exec();
-    let homepageAboutSectionBackground = await HomePageAboutSectionBackground.find().limit(1).sort({'_id':-1}).lean().exec();
-    let homePageAboutSectionContent = await HomePageAboutSectionContents.find().limit(1).sort({'_id':-1}).lean().exec();
-    let event = await Event.find({'eventType':'Upcoming'}).limit(4).select({"name": 1,"date": 1}).sort({'_id':-1}).lean().exec();
-    let eventBackgroundQ = await EventSectionBackground.find().limit(1).sort({'_id':-1}).lean().exec();
-    let blog = await Activity.find().limit(3).select({"image": 1,"title": 1}).sort({'_id':-1}).lean().exec();
-    let slider = await HomePageSlider.find().limit(5).sort({'_id':-1}).lean().exec();
-    let webTitle = await WebsiteTitle.find().limit(1).sort({'_id':-1}).lean().exec();
-    let socialAccounts = await Social.find().lean().exec();
-    let logo = await Logo.find().limit(1).sort({'_id':-1}).lean().exec();
-
-    console.log(quote);
-    console.log(committee);
-    console.log(companies);
-    console.log(gallary);
-    console.log(homepageAboutSectionSkills);
-    console.log(homepageAboutSectionBackground);
-    console.log(homePageAboutSectionContent);
-    console.log(event);
-    console.log(eventBackgroundQ);
-    console.log(blog);
-    console.log(slider);
-    res.render('Index/index',{
-        socialAccounts: socialAccounts,
-        logo: logo,
-        quotes: quote,
-        commiteeMembers: committee,
-        companies: companies,
-        gallary: gallary,
-        abouts: homepageAboutSectionSkills,
-        aboutsectionbackground: homepageAboutSectionBackground,
-        aboutSectionContents: homePageAboutSectionContent,
-        events: event,
-        eventBackground: eventBackgroundQ,
-        blogs: blog,
-        slider: slider,
-        title: webTitle
-    })*/
+exports.homePage = async function(req,res,next){
     let quoteQuery = Quotes.find().limit(3).sort({'_id':-1});
     let committeeQuery = Committee.find().limit(3).sort({'_id':-1}).select({"image":1
     ,"name":1,"companyname":1,"designation":1});
     let companiesQuery = Company.find({"approval":"1"}).limit(5).sort({'_id':-1}).select({
         "logo":1
     });
-    let gallaryQuery = Gallary.find().limit(6).sort({'_id':-1});
+    let galleryQuery = Gallery.find().limit(6).sort({'_id':-1});
     let homepageaboutSectionSkillsQuery = HomePageAboutSectionSkills.find().sort({'_id':-1});
     let homepageaboutSectionBackgroundQuery = HomePageAboutSectionBackground.find().limit(1).sort({'_id':-1});
     let homePageAboutSectionContentQuery = HomePageAboutSectionContents.find().limit(1).sort({'_id':-1});
@@ -210,8 +167,8 @@ exports.index = async function(req,res,next){
               })
               .catch(next)
         },
-        gallaries: function(callback){
-          gallaryQuery.exec()
+        galleries: function(callback){
+            galleryQuery.exec()
               .then((gallaryData)=>{
                   callback(null,gallaryData)
               })
@@ -317,7 +274,7 @@ exports.index = async function(req,res,next){
             quotes: indexData.quotessection,
             commiteeMembers: indexData.committeemembers,
             companies: indexData.companiessection,
-            gallary: indexData.gallaries,
+            gallery: indexData.galleries,
             abouts: indexData.homepageaboutsectionskills,
             aboutsectionbackground: indexData.homepageaboutsectionbackground,
             events: indexData.eventsectioncontnets,
@@ -325,53 +282,73 @@ exports.index = async function(req,res,next){
             blogs: indexData.blogsection,
             aboutSectionContents: indexData.homepageaboutsectioncontent,
             slider: indexData.slidersection,
-            title: indexData.pageTitle
+            title: indexData.pageTitle,
+            page_name: 'Home'
         })
     })
 }
 
 
-exports.get_logo_upload_page=function(req,res){
+//to get page for logo upload
+exports.logoUpload=function(req,res){
     res.render('Home/logoinput',{
         title: sess.title,
         username: sess.username,
         userimage: sess.userimage
     })
 }
-exports.logo_upload=function(req,res){
+
+//to post logo upload
+exports.logoUploadPost=function(req,res){
     uploadLogo(req,res,function(err){
         if(err) throw err;
-        let logo = new Logo({
+        /*let logo = new Logo({
             image: req.file.filename
         });
         logo.save(function(err){
             if(err) throw err;
+
+        })*/
+        let logo = new Logo();
+        logo.image=req.file.filename;
+        let logoUploadStatus = logo.save();
+        if(logoUploadStatus){
             res.send('Logo Uploaded!')
-        })
+        }
+        if(!logoUploadStatus){
+            res.send(new Error('There was some problem'))
+        }
     })
 }
-exports.get_quotes_page=function(req,res){
+
+//to get quote upload page
+exports.quotePage=function(req,res){
     res.render('Home/quotes',{
         title: sess.title,
         username: sess.username,
         userimage: sess.userimage
     })
 }
-exports.quotes_post = function(req,res){
+
+//to post quote
+exports.quotePost = function(req,res){
     uploadQuote(req,res,function(err){
         if(err) throw err;
-        let quote = new Quotes({
-            quote: req.body.quote,
-            image: req.file.filename
-        });
-        quote.save(function(err){
-            if(err) throw err;
+        let quote = new Quotes();
+        quote.quote=req.body.quote;
+        quote.image=req.file.filename;
+        let quoteUploadStatus=quote.save();
+        if(quoteUploadStatus){
             res.send('Quote uploaded!')
-        })
+        }
+        if(!quoteUploadStatus){
+            res.send(new Error('There was some problem'))
+        }
     })
 }
 
-exports.home_page_event = function(req,res){
+//to get background page for home event
+exports.homePageEvent = function(req,res){
     res.render('Home/home-page-event-background',{
         title: sess.title,
         username: sess.username,
@@ -379,21 +356,24 @@ exports.home_page_event = function(req,res){
     })
 }
 
-exports.home_page_event_post = function(req,res){
-    uploadEventSectionBackground(req,res,function(err){
+//to post event background for home page
+exports.homePageEventPost = async function(req,res,next){
+    uploadEventSectionBackground(req,res,async function(err){
         if(err) throw err;
-        let eventSectionBackground = new EventSectionBackground({
-            image: req.file.filename
-        });
-        eventSectionBackground.save(function(err){
-            if(err) throw err;
-            res.send('Successfully Uploaded!');
-        })
-
+        let eventSectionBackground = new EventSectionBackground();
+        eventSectionBackground.image=req.file.filename;
+        try{
+            await eventSectionBackground.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('Successfully Uploaded!');
     })
 }
 
-exports.get_about_home_page = function(req,res){
+//to get home page skill page
+exports.homePageAbout = function(req,res){
     res.render('Home/homePageAboutSection',{
         title: sess.title,
         username: sess.username,
@@ -401,60 +381,72 @@ exports.get_about_home_page = function(req,res){
     })
 }
 
-exports.post_about_contents = function(req,res){
+//to post skills
+exports.homePageAboutContentPost = async function(req,res,next){
     let skill = req.body.skill;
     let percentage = req.body.percentage;
     let contents = req.body.contents;
     if(contents ===''){
-        let homePageAboutSectionSkills = new HomePageAboutSectionSkills({
-            skill: req.body.skill,
-            percentage: req.body.percentage
-        });
-        homePageAboutSectionSkills.save(function(err) {
-            if(err) throw err;
-            res.send('New Skill Added!')
-        })
+        let homePageAboutSectionSkills = new HomePageAboutSectionSkills();
+        homePageAboutSectionSkills.skill=skill;
+        homePageAboutSectionSkills.percentage=percentage;
+
+        try{
+            await homePageAboutSectionSkills.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('New Skill Added!')
     }else if(skill ==='' || percentage ===''){
-        let homePageAboutSectionContents = new HomePageAboutSectionContents({
-            contents: req.body.contents
-        });
-        homePageAboutSectionContents.save(function(err){
-            if(err) throw err;
-            res.send('New Content Uploaded!')
-        })
+        let homePageAboutSectionContents = new HomePageAboutSectionContents();
+        homePageAboutSectionContents.contents=contents;
+        try{
+            await homePageAboutSectionContents.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('Contents Uploaded')
+
     } else if( contents !='' && skill !='' && percentage !=''){
-        let homePageAboutSectionSkills = new HomePageAboutSectionSkills({
-            skill: req.body.skill,
-            percentage: req.body.percentage
-        });
-        let homePageAboutSectionContents = new HomePageAboutSectionContents({
-            contents: req.body.contents
-        });
-        homePageAboutSectionSkills.save(function(err) {
-            if(err) throw err;
-            homePageAboutSectionContents.save(function(err){
-                if(err) throw err;
-                res.send('New Contents Uploaded!')
-            })
-        })
+        let homePageAboutSectionSkills = new HomePageAboutSectionSkills();
+        homePageAboutSectionSkills.skill=req.body.skill;
+        homePageAboutSectionSkills.percentage=req.body.percentage;
+
+        let homePageAboutSectionContents = new HomePageAboutSectionContents();
+        homePageAboutSectionContents.contents=req.body.contents;
+        try{
+            await homePageAboutSectionSkills.save();
+            await homePageAboutSectionContents.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('New Contents uploaded')
     }
 
 }
 
-exports.post_about_contents_background = function(req,res){
-    uploadAboutContent(req,res,function(err){
+//to post background for home page about
+exports.homePageAboutContentBackgroundPost = async function(req,res){
+    uploadAboutContent(req,res,async function(err){
         if(err) throw err;
-        let aboutBackground = new HomePageAboutSectionBackground({
-            image: req.file.filename
-        });
-        aboutBackground.save(function(err){
-            if(err) throw err;
-            //res.send('Background added succesfully!');
-            res.redirect('/home-page-about')
-        })
+        let aboutBackground = new HomePageAboutSectionBackground();
+        aboutBackground.image=req.file.filename;
+
+        try{
+         await aboutBackground.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.redirect('/home-page-about');
+
     })
 }
 
+//to get slider page for home
 exports.homePageSlider = function(req,res){
     res.render('Home/homePageSlider',{
         title: sess.title,
@@ -463,18 +455,26 @@ exports.homePageSlider = function(req,res){
     })
 }
 
-exports.homePageSliderPost = function(req,res){
-    homePageSliderUpload(req,res,function(err){
+//to post home page slider contents
+exports.homePageSliderPost = async function(req,res){
+    homePageSliderUpload(req,res,async function(err){
         if(err) throw err;
         let homePageSlider = new HomePageSlider({
             title: req.body.homePageSliderTitle,
             content: req.body.homePageSliderContent,
             image: req.file.filename
         });
-        homePageSlider.save(function(err){
-            if(err) throw err;
-            res.send('New Content Uploaded!');
-        })
+        homePageSlider.title=req.body.homePageSliderTitle;
+        homePageSlider.content=req.body.homePageSliderContent;
+        homePageSlider.image=req.file.filename;
+
+        try{
+            await homePageSlider.save();
+        }
+        catch(error){
+            throw error;
+        }
+        res.send('New Content Uploaded!');
     })
 }
 

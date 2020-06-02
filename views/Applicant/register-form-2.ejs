@@ -75,7 +75,7 @@
         function submit(){
             //document.getElementById('msg').innerHTML="You Clicked me!";
             var memberno = $('#inputMemberNo').val();
-            var serialID = $('#serialID').val();
+            //var serialID = $('#serialID').val();
             var mobileID= $('#mobileID').val();
             if(memberno ==''){
                 memberno='';
@@ -87,8 +87,8 @@
                 url:'/applicant/register-form-2-submit',
                 data:{
                     membershipno: memberno,
-                    mobile: mobileID,
-                    serial: serialID
+                    mobile: mobileID
+                    //serial: serialID
                 },
                 success:function(response){
                     if(response){
@@ -126,7 +126,7 @@
         </div>
 
         <!-- Main Navigation -->
-        <nav class="main_nav justify-self-end" id="myTopnav">
+        <!--<nav class="main_nav justify-self-end" id="myTopnav">
             <ul class="nav_items">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -149,14 +149,14 @@
                 <li class="active"><a href="/applicant/register"><span>Register</span></a></li>
 
             </ul>
-        </nav>
+        </nav>-->
 
         <!-- Hamburger -->
-        <div class="hamburger_container">
+        <!--<div class="hamburger_container">
             <span class="hamburger_text">Menu</span>
             <span class="hamburger_icon"></span>
-        </div>
-
+        </div>-->
+        <% include ../partials/navbar %>
     </header>
 
     <!-- Menu -->
@@ -164,7 +164,8 @@
     <div class="fs_menu_overlay"></div>
     <div class="fs_menu_container">
         <div class="fs_menu_shapes"><img src="images/menu_shapes.png" alt=""></div>
-        <nav class="fs_menu_nav">
+        <% include ../partials/hamberger %>
+        <!--<nav class="fs_menu_nav">
             <ul class="fs_menu_list">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -177,7 +178,7 @@
                 <li><a href="/contact"><span>contact</span></a></li>
                 <li><a href="/applicant/register"><span>Register</span></a></li>
             </ul>
-        </nav>
+        </nav>-->
         <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
             <ul class="fs_social">
                 <% if(socialAccounts.length > 0){%>
@@ -223,8 +224,7 @@
                                    id="inputMemberNo" placeholder="Enter Membership Number">
                             <input type="text" value="<%=mobile%>"
                                    id="mobileID" hidden>
-                            <input type="text" value="<%=serial%>"
-                                   id="serialID" hidden>
+<!---->
                         </div>
                     </div>
 

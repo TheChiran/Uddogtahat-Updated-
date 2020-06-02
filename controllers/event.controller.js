@@ -39,10 +39,58 @@ let eventSectionStorage = multer.diskStorage({
 
 let uploadEventSectionBackground = multer({storage:eventSectionStorage}).single('eventSectionBackground');
 
+let async = require('async');
 
-exports.upcoming_event= function(req,res){
+//to get upcoming event list
+exports.upcomingEventList= function(req,res){
     let upcomingEvents = Event.find({'eventType':'Upcoming'}).sort({'_id':-1}).limit(5);
-    upcomingEvents.exec(function(err,eventValues){
+    async.parallel({
+        eventList: function(callback){
+            upcomingEvents.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo: function(callback){
+            logo.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccountList: function(callback){
+            socialAccounts.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,data){
+        res.render('Event/upcoming-event',{
+            events: data.eventList,
+            title: data.webTitle,
+            socialAccounts: data.socialAccountList,
+            logo: data.logo,
+            page_name: 'Event'
+        });
+    })
+    /*upcomingEvents.exec(function(err,eventValues){
         if(err) throw err;
         webTitle.exec(function(err,title){
             if(err) throw err;
@@ -58,12 +106,59 @@ exports.upcoming_event= function(req,res){
                 })
             })
         })
-    })
+    })*/
 }
 
-exports.update_event= function(req,res){
+//to get update event list
+exports.updateEventList= function(req,res){
     let updateEvents = Event.find({'eventType':'Update'}).sort({'_id':-1}).limit(5);
-    updateEvents.exec(function(err,eventValues){
+    async.parallel({
+        eventList: function(callback){
+            updateEvents.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo: function(callback){
+            logo.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccountList: function(callback){
+            socialAccounts.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,data){
+        res.render('Event/update-event',{
+            events: data.eventList,
+            title: data.webTitle,
+            socialAccounts: data.socialAccountList,
+            logo: data.logo,
+            page_name: 'Event'
+        });
+    })
+    /*updateEvents.exec(function(err,eventValues){
         if(err) throw err;
         webTitle.exec(function(err,title){
             if(err) throw err;
@@ -80,13 +175,59 @@ exports.update_event= function(req,res){
                 })
             })
         })
-    })
+    })*/
 }
 
-exports.event_single = function(req,res){
+exports.eventSingle = function(req,res){
     let id = req.params.id;
     let eventSingle = Event.find({'_id': id});
-    eventSingle.exec(function (err,singleEvent) {
+    async.parallel({
+        eventList: function(callback){
+            eventSingle.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo: function(callback){
+            logo.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccountList: function(callback){
+            socialAccounts.exec()
+                .then((data)=>{
+                    callback(null,data);
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,data){
+        res.render('Event/event-single',{
+            event: data.eventList,
+            title: data.webTitle,
+            socialAccounts: data.socialAccountList,
+            logo: data.logo,
+            page_name: 'Event'
+        });
+    })
+    /*eventSingle.exec(function (err,singleEvent) {
         if(err) throw err;
         webTitle.exec(function(err,title){
             if(err) throw err;
@@ -103,32 +244,12 @@ exports.event_single = function(req,res){
                 })
             })
         })
-    })
+    })*/
 }
 
-exports.home_page_event = function(req,res){
-    res.render('Home/home-page-event-background',{
-        title: sess.title,
-        username: sess.username,
-        userimage: sess.userimage
-    })
-}
 
-exports.home_page_event_post = function(req,res){
-    uploadEventSectionBackground(req,res,function(err){
-        if(err) throw err;
-        let eventSectionBackground = new EventSectionBackground({
-            image: req.file.filename
-        });
-        eventSectionBackground.save(function(err){
-            if(err) throw err;
-            res.send('Successfully Uploaded!');
-        })
-
-    })
-}
-
-exports.event_page=function(req,res){
+//to get event page to post
+exports.getEventPage=function(req,res){
     res.render('Event/event',{
         title: sess.title,
         username: sess.username,
@@ -136,14 +257,29 @@ exports.event_page=function(req,res){
     });
 }
 
-exports.event_page_post=function(req,res){
+//to post event contents
+exports.eventPost = async function(req,res){
     var d = new Date();
     var months = ["January","February","March","April",
         "May","June","July","August","September","October","November","December"];
     var fullDate = months[d.getMonth()]+' '+d.getDate()+' ,'+d.getFullYear();
-    uploadEvent(req,res,function(err){
+    uploadEvent(req,res,async function(err){
         if(err) throw err;
-        let event = new Event({
+        let event = new Event();
+            event.name= req.body.name;
+            event.eventType= req.body.eventType;
+            event.eventImage= req.file.filename;
+            event.description= req.body.eventDescription;
+            event.date= fullDate;
+
+            try{
+                await event.save();
+                res.send('New Event added!');
+            }
+            catch (error) {
+                throw error;
+            }
+        /*let event = new Event({
             name: req.body.name,
             eventType: req.body.eventType,
             eventImage:req.file.filename,
@@ -153,11 +289,12 @@ exports.event_page_post=function(req,res){
         event.save(function(err){
             if(err) throw err;
             res.send('New Event added!');
-        })
+        })*/
     })
 }
 
-exports.manage_events=function(req,res){
+//to manage events
+exports.manageEvents=function(req,res){
     let events = Event.find({'eventType':'Upcoming'});
     events.exec(function(err,eventDatas){
         if(err) throw err;
@@ -170,9 +307,8 @@ exports.manage_events=function(req,res){
     })
 }
 
-
-
-exports.event_done = function(req,res){
+//to change event status
+exports.changeEventToDone = function(req,res){
     var id = req.params.id;
     console.log(id);
     Event.updateOne({'_id':id},{

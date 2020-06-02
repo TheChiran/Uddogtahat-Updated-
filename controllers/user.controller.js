@@ -8,6 +8,7 @@ var crypto=require('crypto');
 var fileExtension = require('file-extension');
 let bcrypt = require('bcryptjs');
 
+let async = require('async');
 /*File upload*/
 let adminProfilePictureStorage = multer.diskStorage({
     destination:function (req,file,callback) {
@@ -22,14 +23,46 @@ let adminProfilePictureStorage = multer.diskStorage({
 
 let adminProfilePictureUpload = multer({storage:adminProfilePictureStorage}).single('adminProfilePicture');
 
-exports.dashboard = function(req,res,next){
+
+//to get user dashboard
+exports.userDashboard = function(req,res,next){
     sess = req.session;
 
     let totalMembersQuery = Applicant_general_info.countDocuments({"approval":"1"});
     let totalMemberRequestQuery = Applicant_general_info.countDocuments({"approval":"0"});
 
     if(sess.isNew){
-        totalMembersQuery.exec(function(err,totalMembers){
+        async.parallel({
+            totalMember: function(callback){
+                totalMembersQuery.exec()
+                    .then((total)=>{
+                        callback(null,total)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            },
+            totalRequest: function(callback){
+                totalMemberRequestQuery.exec()
+                    .then((total)=>{
+                        callback(null,total)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            }
+        },function(err,data){
+            if(err) throw err;
+            res.render('Dashboard/dashboard',{
+                title: sess.title,
+                username: sess.username,
+                userimage: sess.userimage,
+                totalMembers: data.totalMember,
+                totalRequests: data.totalRequest,
+                isNew: 'Yes'
+            })
+        })
+        /*totalMembersQuery.exec(function(err,totalMembers){
             if(err) throw err;
             totalMemberRequestQuery.exec(function(err,totalRequests){
                 if(err) throw err;
@@ -42,9 +75,39 @@ exports.dashboard = function(req,res,next){
                     isNew: 'Yes'
                 })
             })
-        })
+        })*/
     }else{
-        totalMembersQuery.exec(function(err,totalMembers){
+        async.parallel({
+            totalMember: function(callback){
+                totalMembersQuery.exec()
+                    .then((total)=>{
+                        callback(null,total)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            },
+            totalRequest: function(callback){
+                totalMemberRequestQuery.exec()
+                    .then((total)=>{
+                        callback(null,total)
+                    })
+                    .catch((error)=>{
+                        throw error;
+                    })
+            }
+        },function(err,data){
+            if(err) throw err;
+            res.render('Dashboard/dashboard',{
+                title: sess.title,
+                username: sess.username,
+                userimage: sess.userimage,
+                totalMembers: data.totalMember,
+                totalRequests: data.totalRequest,
+                isNew: ''
+            })
+        })
+        /*totalMembersQuery.exec(function(err,totalMembers){
             if(err) throw err;
             totalMemberRequestQuery.exec(function(err,totalRequests){
                 if(err) throw err;
@@ -57,16 +120,17 @@ exports.dashboard = function(req,res,next){
                     isNew: ''
                 })
             })
-        })
+        })*/
     }
 
 }
 
-exports.sign_in = function(req,res){
+//to get admin sign in page
+exports.signIn = function(req,res){
     res.render('User/sign-in')
 }
 
-exports.sign_in_post = function(req,res){
+exports.signInPost = function(req,res){
     sess = req.session;
     let email = req.body.email;
     let password = req.body.password;
@@ -117,16 +181,28 @@ exports.sign_in_post = function(req,res){
     })
 }
 
-exports.setNewUser = function(req,res){
+exports.setNewUser = async function(req,res){
     sess = req.session;
-    adminProfilePictureUpload(req,res,function(err){
+    adminProfilePictureUpload(req,res,async function(err){
         if(err) throw err;
         /*let userEmail = req.body.userEmail;
         let userName = req.body.userName;*/
         let userPassword = req.body.userPassword;
-        bcrypt.hash(userPassword,10,function(err,hash){
+        bcrypt.hash(userPassword,10,async function(err,hash){
             if(!err){
-                let newAdmin = new Admin({
+                let user = new Admin();
+                user.username = req.body.userName;
+                user.email = req.body.userEmail;
+                user.password = hash;
+                user.image = req.file.filename;
+                try{
+                    await user.save();
+                    res.redirect('/user/logout');
+                }
+                catch (error) {
+                    throw error;
+                }
+                /*let newAdmin = new Admin({
                     username:req.body.userName,
                     email:req.body.userEmail,
                     password:hash,
@@ -135,13 +211,14 @@ exports.setNewUser = function(req,res){
                 newAdmin.save(function(err){
                     if(err) throw err;
                     res.redirect('/user/logout');
-                })
+                })*/
             }
         })
 
     })
 }
 
+//to get user Setting page
 exports.settings = function(req,res){
     sess = req.session;
     res.render('settings/setting',{
@@ -151,6 +228,7 @@ exports.settings = function(req,res){
     })
 }
 
+//to change user name
 exports.changeUserName = function(req,res){
     sess = req.session;
     let adminQuery = Admin.findOneAndUpdate({'email':sess.email},{
@@ -165,6 +243,7 @@ exports.changeUserName = function(req,res){
     })
 }
 
+//to change user password
 exports.changeUserPassword = function(req,res){
     sess = req.session;
     let oldPassword = req.body.oldPassword;
@@ -208,6 +287,7 @@ exports.changeUserPassword = function(req,res){
 
 }
 
+//to change user profile picture
 exports.changeUserProfilePicture = function(req,res){
     sess = req.session;
     adminProfilePictureUpload(req,res,function(err){
@@ -225,6 +305,7 @@ exports.changeUserProfilePicture = function(req,res){
     })
 }
 
+//user logout
 exports.logout = function(req,res){
     req.session.destroy();
     res.redirect('/user/sign-in');

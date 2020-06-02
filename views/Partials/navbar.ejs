@@ -1,0 +1,45 @@
+<!-- Main Navigation -->
+<nav class="main_nav justify-self-end" id="myTopnav">
+    <ul class="nav_items">
+        <li <% if (page_name === 'Home') { %>class="active" <% } %> >
+            <a href="/"><span>home</span></a></li>
+
+        <li <% if (page_name === 'Member-list') { %>class="active" <% } %> >
+            <a href="/member/list"><span>Members</span></a></li>
+
+        <li <% if (page_name === 'Activity-list') { %>class="active" <% } %> >
+            <a href="/activity/list"><span>Activities</span></a></li>
+
+        <li <% if (page_name === 'Committee-Member-List') { %>class="active" <% } %> >
+            <a href="/committee-members"><span>Committee</span></a></li>
+
+        <li style="margin: 0px !important;" <% if (page_name === 'Event') { %>class="active" <% } %> >
+            <div class="dropdown">
+                <button class="dropbtn">
+                    Events <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/event/upcoming">Upcoming</a>
+                    <a href="/event/update">Update</a>
+                </div>
+            </div>
+        </li>
+
+        <li <% if (page_name === 'Gallery') { %>class="active" <% } %> >
+            <a href="/gallery"><span>Gallery</span></a></li>
+
+        <li <% if (page_name === 'About') { %>class="active" <% } %> >
+            <a href="/about"><span>About</span></a></li>
+
+        <li <% if (page_name === 'Contact') { %>class="active" <% } %> >
+            <a href="/contact"><span>contact</span></a></li>
+
+        <li <% if (page_name === 'Applicant-Register') { %>class="active" <% } %>>
+            <a href="/applicant/register"><span>Register</span></a></li>
+
+    </ul>
+</nav>
+<div class="hamburger_container">
+    <span class="hamburger_text">Menu</span>
+    <span class="hamburger_icon"></span>
+</div>

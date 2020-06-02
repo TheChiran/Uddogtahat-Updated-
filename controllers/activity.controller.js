@@ -10,6 +10,7 @@ const Category =  require('../model/activities/category.model');
 var multer = require('multer');
 var crypto=require('crypto');
 var fileExtension = require('file-extension');
+let async = require('async');
 
 let webTitle = WebsiteTitle.find().limit(1).sort({'_id':-1});
 let socialAccounts = Social.find();
@@ -26,6 +27,8 @@ let activitystorage = multer.diskStorage({
     }
 });
 
+
+//location to store activity page background
 let uploadActivity = multer({storage:activitystorage}).single('activitypicture');
 
 let activityPageHeaderStorage = multer.diskStorage({
@@ -39,9 +42,11 @@ let activityPageHeaderStorage = multer.diskStorage({
     }
 });
 
+//location to store activity page header background
 let activityPageHeaderUpload = multer({storage:activityPageHeaderStorage}).single('activityPageHeaderBackground');
 
-exports.activities = function (req,res) {
+exports.activityList = function (req,res) {
+    //to count total number of documents
     const totalActivity = Activity.countDocuments();
     var page=1;
     var pages;
@@ -50,54 +55,102 @@ exports.activities = function (req,res) {
             {"serial":{$gte:1}},{"serial":{$lte:8}}
         ]
     };
-    let activityData = Activity.find(query).limit(8).sort({'_id':-1});
+    let activities = Activity.find(query).limit(8).sort({'_id':-1});
     let activityHeaderQuery = ActivityPageHeader.find().limit(1).sort({'_id':-1});
     let activityCategoryQuery = ActivityCategory.find().limit(8).sort({'_id':-1});
     sess = req.session;
-    totalActivity.exec(function (err,total) {
-        if(err) throw err;
-        webTitle.exec(function(err,title){
-            if(err) throw err;
-            socialAccounts.exec(function(err,socialAccounts){
-                if(err) throw err;
-                activityHeaderQuery.exec(function(err,activityHeaderData){
-                    if(err) throw err;
-                    activityCategoryQuery.exec(function(err,activityCategory){
-                        if(err) throw err;
-                        logo.exec(function(err,logo){
-                            if(err) throw err;
-                            activityData.exec(function (err,activityResult) {
-                                if(err) throw err;
-                                if(total<=8){
-                                    pages=1;
-                                }else {
-                                    if(total % 8!=0){
-                                        pages=(Math.floor(total/8))+1;
-                                    }else{
-                                        pages=Math.floor(total/8);
-                                    }
-                                }
-                                /*calculate total page number*/
-                                res.render('Activities/activities',{
-                                    activities: activityResult,
-                                    page:page,
-                                    pages:pages,
-                                    title: title,
-                                    socialAccounts: socialAccounts,
-                                    activityHeaderData: activityHeaderData,
-                                    categories: activityCategory,
-                                    logo: logo
-                                })
-                            })
-                        })
-                    })
+    async.parallel({
+        totalActivityPages: function(callback){
+            totalActivity.exec()
+                .then((total)=>{
+                    if(total<=8){
+                        pages=1;
+                    }else {
+                        if(total % 8!=0){
+                            pages=(Math.floor(total/8))+1;
+                        }else{
+                            pages=Math.floor(total/8);
+                        }
+                    }
+                    callback(null,pages)
                 })
-            })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((title)=>{
+                    callback(null,title)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccounts:function (callback) {
+            socialAccounts.exec()
+                .then((soccialAccountsData)=>{
+                    callback(null,soccialAccountsData)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo:function(callback){
+            logo.exec()
+                .then((logo)=>{
+                    callback(null,logo)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityHeaderBackground:function(callback){
+            activityHeaderQuery.exec()
+                .then((background)=>{
+                    callback(null,background)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityCategory:function(callback){
+            activityCategoryQuery.exec()
+                .then((categoryList)=>{
+                    callback(null,categoryList)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activities: function(callback){
+            activities.exec()
+                .then((activityData)=>{
+                    callback(null,activityData)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,activitiesData){
+        if(err) throw err;
+        res.render('Activities/activities',{
+            activities: activitiesData.activities,
+            page:page,
+            pages:activitiesData.totalActivityPages,
+            title: activitiesData.webTitle,
+            socialAccounts: activitiesData.socialAccounts,
+            activityHeaderData: activitiesData.activityHeaderBackground,
+            categories: activitiesData.activityCategory,
+            logo: activitiesData.logo,
+            page_name: 'Activity-list'
         })
+
     })
+
 }
 
-exports.activities_get_page = function(req,res){
+exports.activityListPage = async function(req,res,next){
     var page = req.params.page;
     var min;
     var max;
@@ -118,93 +171,192 @@ exports.activities_get_page = function(req,res){
     var activityData =Activity.find(query).limit(8).sort({'_id':-1});
     let activityHeaderQuery = ActivityPageHeader.find().limit(1).sort({'_id':-1});
     let activityCategoryQuery = ActivityCategory.find().limit(8).sort({'_id':-1});
-    totalActivity.exec(function (err,total) {
-        if(err) throw err;
-        webTitle.exec(function(err,title){
-            if(err) throw err;
-            socialAccounts.exec(function(err,socialAccounts){
-                if(err) throw err;
-                activityHeaderQuery.exec(function(err,activityHeaderData){
-                    if(err) throw err;
-                    activityCategoryQuery.exec(function(err,activityCategory){
-                        if(err) throw err;
-                        logo.exec(function(err,logo){
-                            if(err) throw err;
-                            activityData.exec(function (err,activityResult) {
-                                if(err) throw err;
-                                if(total<=8){
-                                    pages=1;
-                                }else {
-                                    if(total % 8!=0){
-                                        pages=(Math.floor(total/8))+1;
-                                    }else{
-                                        pages=Math.floor(total/8);
-                                    }
-                                }
-                                /*calculate total page number*/
-                                if (page > pages || page < 1) {
-                                    res.redirect('/activities')
-                                } else {
-                                    res.render('Activities/activities',{
-                                        activities: activityResult,
-                                        page:page,
-                                        pages:pages,
-                                        title: title,
-                                        socialAccounts: socialAccounts,
-                                        activityHeaderData: activityHeaderData,
-                                        categories: activityCategory,
-                                        logo: logo
-                                    })
-                                }
-                            })
-                        })
-                    })
+
+
+    async.parallel({
+        totalActivityPages: function(callback){
+            totalActivity.exec()
+                .then((total)=>{
+                    if(total<=8){
+                        pages=1;
+                    }else {
+                        if(total % 8!=0){
+                            pages=(Math.floor(total/8))+1;
+                        }else{
+                            pages=Math.floor(total/8);
+                        }
+                    }
+                    callback(null,pages)
                 })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((title)=>{
+                    callback(null,title)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccounts:function (callback) {
+            socialAccounts.exec()
+                .then((soccialAccountsData)=>{
+                    callback(null,soccialAccountsData)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo:function(callback){
+            logo.exec()
+                .then((logo)=>{
+                    callback(null,logo)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityHeaderBackground:function(callback){
+            activityHeaderQuery.exec()
+                .then((background)=>{
+                    callback(null,background)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityCategory:function(callback){
+            activityCategoryQuery.exec()
+                .then((categoryList)=>{
+                    callback(null,categoryList)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityTotalData: function(callback){
+            activityData.exec()
+                .then((activityData)=>{
+                    callback(null,activityData)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,activitiesData){
+        if(err) throw err;
+        if (page > pages || page < 1) {
+            res.redirect('/activity/list')
+        }else{
+            res.render('Activities/activities',{
+                activities: activitiesData.activityTotalData,
+                page:page,
+                pages:activitiesData.totalActivityPages,
+                title: activitiesData.webTitle,
+                socialAccounts: activitiesData.socialAccounts,
+                activityHeaderData: activitiesData.activityHeaderBackground,
+                categories: activitiesData.activityCategory,
+                logo: activitiesData.logo,
+                page_name: 'Activity-list'
             })
-        })
+        }
+
     })
 
 }
 
-exports.activitiesSingle = function (req,res) {
+//to get single activity page
+exports.activitySingle = function (req,res) {
     const id = req.params.id;
-    let activityData = Activity.find().limit(5).sort({'_id':-1});
+    let recentActivities = Activity.find().limit(5).sort({'_id':-1});
+    let activity = Activity.find({'_id':id});
     let activityHeaderQuery = ActivityPageHeader.find().limit(1).sort({'_id':-1});
     let activityCategoryQuery = ActivityCategory.find().limit(8).sort({'_id':-1});
-    Activity.find({'_id':id},function(err,singleActivity){
-        if(err) throw err;
-        webTitle.exec(function(err,title){
-            if(err) throw err;
-            activityData.exec(function(err,activityRecent){
-                if(err) throw err;
-                socialAccounts.exec(function(err,socialAccounts){
-                    if(err) throw err;
-                    activityHeaderQuery.exec(function(err,activityHeaderData){
-                        if(err) throw err;
-                        activityCategoryQuery.exec(function(err,activityCategory){
-                            if(err) throw err;
-                            logo.exec(function(err,logo){
-                                if(err) throw err;
-                                res.render('Activities/activities-single',{
-                                    activity:singleActivity,
-                                    activitiesRecent: activityRecent,
-                                    title: title,
-                                    socialAccounts: socialAccounts,
-                                    activityHeaderData: activityHeaderData,
-                                    categories: activityCategory,
-                                    logo: logo
-                                })
-                            })
-                        })
-                    })
+    async.parallel({
+        activity: function(callback){
+            activity.exec()
+                .then((data)=>{
+                    callback(null,data)
                 })
-            })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        webTitle: function(callback){
+            webTitle.exec()
+                .then((title)=>{
+                    callback(null,title)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        socialAccounts:function (callback) {
+            socialAccounts.exec()
+                .then((soccialAccountsData)=>{
+                    callback(null,soccialAccountsData)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        logo:function(callback){
+            logo.exec()
+                .then((logo)=>{
+                    callback(null,logo)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityBackground:function(callback){
+            activityHeaderQuery.exec()
+                .then((background)=>{
+                    callback(null,background)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        activityCategory:function(callback){
+            activityCategoryQuery.exec()
+                .then((categoryList)=>{
+                    callback(null,categoryList)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        },
+        recentActivities: function (callback) {
+            recentActivities.exec()
+                .then((data)=>{
+                    callback(null,data)
+                })
+                .catch((error)=>{
+                    throw error;
+                })
+        }
+    },function(err,activityData){
+        if(err) throw err;
+        res.render('Activities/activity-single',{
+            activity: activityData.activity,
+            title: activityData.webTitle,
+            activitiesRecent: activityData.recentActivities,
+            socialAccounts: activityData.socialAccounts,
+            activityHeaderData: activityData.activityBackground,
+            categories: activityData.activityCategory,
+            logo: activityData.logo,
+            page_name: 'Activity-list'
         })
     })
+
 }
 
-
-exports.get_activity_page = function(req,res){
+//to get activity post
+exports.getActivityPage = function(req,res){
     ActivityCategory.find({},function(err,categories){
         res.render('Activities/activity_post',{
             categories: categories,
@@ -215,7 +367,8 @@ exports.get_activity_page = function(req,res){
     })
 }
 
-exports.activity_post = function(req,res){
+//to post activity
+exports.activityPost = function(req,res){
     var d = new Date();
     var months = ["January","February","March","April",
         "May","June","July","August","September","October","November","December"];
@@ -246,7 +399,8 @@ exports.activity_post = function(req,res){
     })
 }
 
-exports.category = function(req,res){
+//to get category post page for activity category
+exports.categoryPage = function(req,res){
     res.render('Activities/category',{
         title: sess.title,
         username: sess.username,
@@ -254,22 +408,26 @@ exports.category = function(req,res){
     })
 }
 
-exports.category_post = async function(req,res){
+//to post category for activity
+exports.categoryPost = async function(req,res,next){
     let checkCategory = await Category.find({'name': req.body.blogCategory});
     if(checkCategory){
         res.send('This Category Is Already Created');
     }else{
-        let category = new Category({
-            name: req.body.blogCategory
-        })
-        category.save(function(err){
-            if(err) throw err;
-            res.send('New Category Created!');
-        })
+        let category = new Category();
+        category.name=req.body.blogCategory;
+        try{
+            await category.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('New Category Added!');
     }
 
 }
 
+//to get activity header post page
 exports.activityPageHeader = function(req,res){
     res.render('Activities/activityPageHeader',{
         title: sess.title,
@@ -278,17 +436,20 @@ exports.activityPageHeader = function(req,res){
     })
 }
 
-exports.activityPageHeaderPost = function(req,res){
-    activityPageHeaderUpload(req,res,function(err){
+//to post header for activity
+exports.activityPageHeaderPost = async function(req,res){
+    activityPageHeaderUpload(req,res,async function(err){
         if(err) throw err;
-        let activityPageHeader = new ActivityPageHeader({
-            title: req.body.activityPageHeaderTitle,
-            content: req.body.activityPageHeaderContent,
-            image: req.file.filename
-        });
-        activityPageHeader.save(function(err){
-            if(err) throw err;
-            res.send('New Content Uploaded!');
-        })
+        let activityPageHeader = new ActivityPageHeader();
+        activityPageHeader.title=req.body.activityPageHeaderTitle;
+        activityPageHeader.content=req.body.activityPageHeaderContent;
+        activityPageHeader.image=req.file.filename;
+        try{
+            await activityPageHeader.save();
+        }
+        catch (error) {
+            throw error;
+        }
+        res.send('New Header Uploaded!');
     })
 }

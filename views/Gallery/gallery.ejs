@@ -26,11 +26,11 @@
         window.onload = function () {
             var next = '';
             var page = parseInt(pageNum());
-            next += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page + 1);
+            next += '<a class="page-link" onclick="return pageNum()"  href="/gallery/page/' + (page + 1);
             next += '" >Next</a>';
             document.getElementById('pageNext').innerHTML = next;
             var previous = '';
-            previous += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page - 1);
+            previous += '<a class="page-link" onclick="return pageNum()"  href="/gallery/page/' + (page - 1);
             previous += '" >Previous</a>';
             document.getElementById('pagePrevious').innerHTML = previous;
         };
@@ -113,7 +113,7 @@
         </div>
 
         <!-- Main Navigation -->
-        <nav class="main_nav justify-self-end" id="myTopnav">
+        <!--<nav class="main_nav justify-self-end" id="myTopnav">
             <ul class="nav_items">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -136,14 +136,14 @@
                 <li><a href="/applicant/register"><span>Register</span></a></li>
 
             </ul>
-        </nav>
+        </nav>-->
 
         <!-- Hamburger -->
-        <div class="hamburger_container">
+        <!--<div class="hamburger_container">
             <span class="hamburger_text">Menu</span>
             <span class="hamburger_icon"></span>
-        </div>
-
+        </div>-->
+        <% include ../partials/navbar %>
     </header>
 
     <!-- Menu -->
@@ -153,7 +153,8 @@
     <div class="fs_menu_overlay"></div>
     <div class="fs_menu_container">
         <div class="fs_menu_shapes"><img src="images/menu_shapes.png" alt=""></div>
-        <nav class="fs_menu_nav">
+        <% include ../partials/hamberger %>
+        <!--<nav class="fs_menu_nav">
             <ul class="fs_menu_list">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -166,7 +167,7 @@
                 <li><a href="/contact"><span>contact</span></a></li>
                 <li><a href="/applicant/register"><span>Register</span></a></li>
             </ul>
-        </nav>
+        </nav>-->
         <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
             <ul class="fs_social">
                 <% if(socialAccounts.length > 0){%>
@@ -191,22 +192,22 @@
     <!-- Hero Slider -->
 
 
-    <!--Image Gallary-->
+    <!--Image Gallery-->
     <div class="container gallery-container">
 
         <div class="tz-gallery">
-            <h1>Gallary</h1>
+            <h1>Gallery</h1>
             <div class="row mt-5">
-                <% if(gallary.length > 0) {%>
-                    <% for(var i =0;i<gallary.length;i++){%>
+                <% if(gallery.length > 0) {%>
+                    <% for(var i =0;i<gallery.length;i++){%>
                     <div class="col-sm-6 col-md-4">
                         <div class="thumbnail">
-                            <a class="lightbox" href="/uploads/gallary/<%=gallary[i].image%>">
-                                <img src="/uploads/gallary/<%=gallary[i].image%>" alt="Park" style="width: 100%;height: 250px">
+                            <a class="lightbox" href="/uploads/gallery/<%=gallery[i].image%>">
+                                <img src="/uploads/gallery/<%=gallery[i].image%>" alt="Park" style="width: 100%;height: 250px">
                             </a>
                             <div class="caption">
-                                <a href="/uploads/gallary/<%=gallary[i].image%>" class="lightbox">
-                                    <%=gallary[i].eventname%>
+                                <a href="/uploads/gallery/<%=gallery[i].image%>" class="lightbox">
+                                    <%=gallery[i].eventname%>
                                 </a>
                             </div>
                         </div>
@@ -215,11 +216,11 @@
                 <%} else {%>
                     <div class="col-sm-6 col-md-4">
                         <div class="thumbnail">
-                            <a class="lightbox" href="/uploads/gallary/">
-                                <img src="/uploads/gallary/" alt="Work " style="width: 100%;height: 250px">
+                            <a class="lightbox" href="/uploads/gallery/">
+                                <img src="/uploads/gallery/" alt="Work " style="width: 100%;height: 250px">
                             </a>
                             <div class="caption">
-                                <a href="/uploads/gallary/" class="lightbox">
+                                <a href="/uploads/gallery/" class="lightbox">
                                 </a>
                             </div>
                         </div>

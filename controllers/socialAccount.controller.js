@@ -21,24 +21,38 @@ let socialAccountStorage = multer.diskStorage({
 });
 
 let uploadSocialAccount = multer({storage:socialAccountStorage}).single('socialAccountIcon');
-exports.social_accounts = function(req,res){
+
+//to get social account page to post
+exports.getSocialAccountPage = function(req,res){
     res.render('Social-Account/social-accounts',{
         title: sess.title,
         username: sess.username,
         userimage: sess.userimage
     })
 }
-exports.social_accounts_post = function(req,res){
-    uploadSocialAccount(req,res,function(err){
+
+//to post social account
+exports.socialAccountPost = async function(req,res){
+    uploadSocialAccount(req,res,async function(err){
         if(err) throw err;
-        let social = new Social({
+        let socialAccount = new Social();
+        socialAccount.link = req.body.socialAccountLink;
+        socialAccount.icon = req.file.filename;
+        try{
+            await socialAccount.save();
+            res.end("Social Account Added");
+        }
+        catch (error) {
+            throw error;
+        }
+        /*let social = new Social({
             link: req.body.socialAccountLink,
             icon: req.file.filename,
         })
         social.save(function(err){
             if(err) throw err;
             res.end("Social Account Added");
-        })
+        })*/
 
     })
 

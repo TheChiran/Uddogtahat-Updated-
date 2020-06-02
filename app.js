@@ -9,8 +9,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index.routes');
 var applicantRouter = require('./routes/applicant.route');
-var adminRouter = require('./routes/admin.route');
-var gallaryRouter = require('./routes/gallary.route');
+var galleryRouter = require('./routes/gallery.route');
 var activityRouter = require('./routes/activity.route');
 var contactRouter = require('./routes/contact.route');
 var aboutRouter = require('./routes/about.route');
@@ -24,9 +23,7 @@ var memberRouter = require('./routes/member.route');
 
 //database connection
 const mongoose = require('mongoose');
-//let dbURL = 'mongodb://127.0.0.1:27017/uddogtahat';
 let dbURL = require('./Database/db');
-//let dbURL = 'mongodb+srv://uddogtahat:uddogtahat54321@cluster0-gsey2.mongodb.net/uddogtahat?retryWrites=true&w=majority';
 let mongoDB = process.env.MONGODB_URI || dbURL;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
@@ -38,7 +35,7 @@ db.on('error',console.error.bind(console,'MongoDb Connection error: '));
 
 var app = express();
 var helmet = require('helmet');
-const jwt = require('jsonwebtoken');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,9 +55,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/applicant', applicantRouter);
-app.use('/admin', adminRouter);
-app.use('/gallary', gallaryRouter);
-app.use('/activities', activityRouter);
+app.use('/gallery', galleryRouter);
+app.use('/activity', activityRouter);
 app.use('/contact', contactRouter);
 app.use('/about', aboutRouter);
 app.use('/social-account', socialAccountRouter);
@@ -70,6 +66,8 @@ app.use('/user', adminUserRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/event', eventRouter);
 app.use('/member', memberRouter);
+
+
 
 
 

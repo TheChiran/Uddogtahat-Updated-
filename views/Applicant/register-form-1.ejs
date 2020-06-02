@@ -94,7 +94,7 @@
         </div>
 
         <!-- Main Navigation -->
-        <nav class="main_nav justify-self-end" id="myTopnav">
+        <!--<nav class="main_nav justify-self-end" id="myTopnav">
             <ul class="nav_items">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -117,13 +117,15 @@
                 <li class="active"><a href="/applicant/register"><span>Register</span></a></li>
 
             </ul>
-        </nav>
+        </nav>-->
 
         <!-- Hamburger -->
-        <div class="hamburger_container">
+        <!--<div class="hamburger_container">
             <span class="hamburger_text">Menu</span>
             <span class="hamburger_icon"></span>
-        </div>
+        </div>-->
+
+        <% include ../partials/navbar %>
 
     </header>
 
@@ -132,7 +134,8 @@
     <div class="fs_menu_overlay"></div>
     <div class="fs_menu_container">
         <div class="fs_menu_shapes"><img src="images/menu_shapes.png" alt=""></div>
-        <nav class="fs_menu_nav">
+        <% include ../partials/hamberger %>
+        <!--<nav class="fs_menu_nav">
             <ul class="fs_menu_list">
                 <li><a href="/"><span>home</span></a></li>
                 <li><a href="/members"><span>Members</span></a></li>
@@ -145,7 +148,7 @@
                 <li><a href="/contact"><span>contact</span></a></li>
                 <li><a href="/applicant/register"><span>Register</span></a></li>
             </ul>
-        </nav>
+        </nav>-->
         <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
             <<ul class="fs_social">
                 <% if(socialAccounts.length > 0){%>
@@ -185,8 +188,7 @@
                             <!--primary key Applicant mobile -->
                             <input type="text" value="<%=mobile%>"
                                    name="primarymobile" hidden>
-                            <input type="text" value="<%=serial%>"
-                                   name="primaryserial" hidden>
+
                         </div>
                     </div>
                     <div class="form-row">
