@@ -32,6 +32,6 @@ let Contact_model = new Schema({
         required:true
     }
 },{
-    collection: 'contact'
+    collection: 'Contact'
 })
 module.exports = mongoose.model('Contact',Contact_model);

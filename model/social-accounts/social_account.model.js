@@ -10,5 +10,7 @@ let SocialAccount = new Socialaccount({
         type: String,
         required: true
     }
+},{
+    collection:'Social'
 });
 module.exports = mongoose.model('Social',SocialAccount);

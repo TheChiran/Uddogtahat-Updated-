@@ -47,7 +47,7 @@ let logoStorage = multer.diskStorage({
 });
 let companyLogoUpload = multer({storage:logoStorage}).single('companylogo');
 
-let memberPictureStorage = multer.diskStorage({
+/*let memberPictureStorage = multer.diskStorage({
     destination:function (req,file,callback) {
         callback(null,'./public/uploads/applicants')
     },
@@ -58,7 +58,7 @@ let memberPictureStorage = multer.diskStorage({
     }
 });
 
-let memberUpload = multer({storage:memberPictureStorage}).single('applicantimage');
+let memberUpload = multer({storage:memberPictureStorage}).single('applicantimage');*/
 
 /*====================File Upload Ends=======================*/
 let async = require('async');
@@ -475,17 +475,17 @@ exports.memberRequestList=function(req,res){
 }
 
 //to get add new member page
-exports.addNewMemberPage = function(req,res){
+/*exports.addNewMemberPage = function(req,res){
     sess = req.session;
     res.render('Applicant/addMember',{
         title: sess.title,
         username: sess.username,
         userimage: sess.userimage
     })
-}
+}*/
 
 //to store member general information
-exports.memberRegister1 = async function(req,res,next){
+/*exports.memberRegister1 = async function(req,res,next){
     sess = req.session;
     memberUpload(req,res,async function(err){
         const mobilenum = req.body.mobile;
@@ -556,83 +556,11 @@ exports.memberRegister1 = async function(req,res,next){
             username: sess.username,
             userimage: sess.userimage
         })
-        /*serialNum.exec(function (err,totalserial) {
-            if(err) throw err;
-            serial=totalserial+1;
-            let ApplicantGeneralInfo = new Applicant_general_info({
-                serial:serial,
-                mobile:req.body.mobile,
-                firstname: req.body.firstname,
-                middlename: req.body.middlename,
-                lastname: req.body.lastname,
-                fathersname: req.body.fathersname,
-                dob: req.body.dob,
-                blood_group: req.body.blood_group,
-                nationality: req.body.nationality,
-                gender: req.body.gender,
-                email: req.body.email,
-                url:  req.body.url,
-                image:image,
-                approval: '1'
-            });
-            let ApplicantMailingAddress = new Applicant_mailing_address({
-                serial:serial,
-                mobile: req.body.mobile,
-                city: req.body.city,
-                state: req.body.state,
-                road: req.body.address,
-                postcode: req.body.postcode,
-                approval: '1'
-            });
-            let ApplicantOfficeInfo = new Applicant_office_info({
-                serial:serial,
-                applicantmobile: req.body.mobile,
-                officephone: req.body.officephn,
-                recidencephone: req.body.residencephn,
-                officefax: req.body.faxnum,
-                designation: req.body.designation,
-                organization: req.body.organization,
-                approval: '1'
-            });
-            let ApplicantPermanentAddress = new Applicant_permanent_address({
-                serial:serial,
-                applicantmobile: req.body.mobile,
-                district: req.body.district,
-                upazila: req.body.upazila,
-                post_office: req.body.postoffice,
-                village: req.body.village,
-                road: req.body.road,
-                block: req.body.block,
-                house: req.body.house,
-                post_code: req.body.permanentpostcode,
-                approval: '1'
-            });
-
-            ApplicantGeneralInfo.save(function(err){
-                if(err) throw err;
-                ApplicantMailingAddress.save(function(err){
-                    if(err) throw err;
-                    ApplicantOfficeInfo.save(function(err){
-                        if(err) throw err;
-                        ApplicantPermanentAddress.save(function(err){
-                            if(err) throw err;
-                            res.render('Applicant/member-register-1',{
-                                mobile:mobilenum,
-                                serial:serial,
-                                title: sess.title,
-                                username: sess.username,
-                                userimage: sess.userimage
-                            })
-                        })
-                    })
-                })
-            })
-        })*/
     })
-}
+}*/
 
 //to store company information
-exports.memberRegister2 = async function(req,res){
+/*exports.memberRegister2 = async function(req,res){
     sess = req.session;
     companyLogoUpload(req,res,async function(err){
         if(err) throw err;
@@ -664,35 +592,12 @@ exports.memberRegister2 = async function(req,res){
             username: sess.username,
             userimage: sess.userimage
         })
-        /*let company = new Company({
-            serial:serialnum,
-            applicantmobile: req.body.primarymobile,
-            companyname: req.body.companyname,
-            address1: req.body.companyaddress1,
-            address2: req.body.companyaddress2,
-            cellphone: req.body.cellphone,
-            telephone: req.body.telephone,
-            email: req.body.email,
-            website: req.body.website,
-            logo: image,
-            approval: '1'
-        })
-        company.save(function(err){
-            if(err) throw err;
-            res.render('Applicant/member-register-2',{
-                mobile:mobileid,
-                serial:serialnum,
-                title: sess.title,
-                username: sess.username,
-                userimage: sess.userimage
-            })
-        })*/
     })
 
-}
+}*/
 
 //to store if there is any membership
-exports.registerComplete = async function(req,res,next){
+/*exports.registerComplete = async function(req,res,next){
     let membershipNo = req.body.membershipno;
     if(membershipNo ==''){
         res.send('New Member Added!');
@@ -709,16 +614,37 @@ exports.registerComplete = async function(req,res,next){
             throw error;
         }
         res.send('New Member Added!');
-        /*let applicant_membership = new Membership({
-            membershipno: req.body.membershipno,
-            mobile: req.body.mobile,
-            serial: req.body.serial
-        })
-        applicant_membership.save(function(err){
-            if(err) throw err;
-            res.send('New Member Added!');
-        })*/
     }
+}*/
+
+//to post committee member contents
+exports.registerMember = async function(req,res){
+    var totalCompanyDocument = await Company.find({"approval":'1'}).countDocuments().exec();
+    let serial = totalCompanyDocument+1;
+    companyLogoUpload(req,res,async function(err){
+        if(err) throw err;
+        let company = new Company();
+        company.applicantmobile= req.body.applicantmobile;
+        company.companyname= req.body.companyName;
+        company.address1= req.body.address1;
+        company.address2= req.body.address2;
+        company.cellphone= req.body.cellphone;
+        company.telephone= req.body.telephone;
+        company.email= req.body.email;
+        company.website= req.body.website;
+        company.serial= serial;
+        company.approval= '1';
+        company.logo= req.file.filename;
+
+        try{
+            await  company.save();
+            //res.send('New Member Added!');
+            res.send('New Member Added!');
+        }
+        catch (error) {
+            throw error;
+        }
+    })
 }
 
 

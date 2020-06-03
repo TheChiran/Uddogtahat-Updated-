@@ -10,5 +10,7 @@ let Quotes = new Schema({
         type: String,
         required: true
     }
+},{
+    collection:'Quote'
 });
 module.exports=mongoose.model('Quote',Quotes);

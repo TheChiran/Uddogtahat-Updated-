@@ -15,5 +15,7 @@ let applicant_membership = new Schema({
     approval:{
         type:String
     }
+},{
+    collection: 'ApplicantMembership'
 });
 module.exports=mongoose.model('Membership',applicant_membership);

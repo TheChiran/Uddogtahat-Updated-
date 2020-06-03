@@ -7,5 +7,7 @@ let aboutBackground = new Schema({
         type: String,
         required: true
     }
+},{
+    collection: 'AboutBackground'
 });
 module.exports = mongooge.model('AboutBackground',aboutBackground);

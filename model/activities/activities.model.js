@@ -24,5 +24,7 @@ let activities = new Schema({
         type: Number
     }
 
+},{
+    collection: 'Activity'
 });
 module.exports = mongoose.model('Activity',activities);

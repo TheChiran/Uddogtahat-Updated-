@@ -6,6 +6,6 @@ let HomePageAboutSectionContent = new Schema({
         type: String
     }
 },{
-    'collections': 'homepageAboutSectionContent'
+    collection: 'AboutContent'
 });
 module.exports = mongoose.model('HomePageAboutSectionContents',HomePageAboutSectionContent);

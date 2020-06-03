@@ -11,5 +11,7 @@ let AboutContents = new Schema({
         type: Number,
         required: true
     }
+},{
+    collection: 'Skill'
 });
 module.exports=mongoose.model('AboutContent',AboutContents);

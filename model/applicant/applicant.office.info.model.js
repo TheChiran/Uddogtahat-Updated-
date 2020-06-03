@@ -26,5 +26,7 @@ let Applicant_office_info = new Schema({
     approval:{
         type:String
     }
+},{
+    collection: 'ApplicantOfficeInfo'
 })
-module.exports = mongoose.model('ApplicanOfficeInfo',Applicant_office_info);
+module.exports = mongoose.model('ApplicantOfficeInfo',Applicant_office_info);

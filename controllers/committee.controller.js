@@ -304,26 +304,4 @@ exports.committeePagePost = async function(req,res){
             throw error;
         }
     })
-    /*totalCommitteeDocument.exec(function(err,totalCommittee){
-        if(err) throw err;
-        var serial = totalCommittee+1;
-        uploadCommittee(req,res,function(err){
-            if(err) throw err;
-            console.log(serial);
-            let committee= new Committee({
-                name: req.body.name,
-                phone: req.body.phone,
-                email: req.body.email,
-                designation: req.body.designation,
-                companyname: req.body.company,
-                serial: serial,
-                image: req.file.filename
-            })
-            committee.save(function(err){
-                if(err) throw err;
-                res.send('New Committee member Added!');
-            })
-        })
-    })*/
-    //res.render('admin/dashboard/committee-page')
 }

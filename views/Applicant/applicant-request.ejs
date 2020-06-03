@@ -67,11 +67,11 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation" style="background: rgba(255,255,255,0.7)"></div>
         </div>
         <!--logo start-->
-        <a href="/admin" class="logo"><b><%=title%> Dashboard</b></a>
+        <a href="/user/dashboard" class="logo"><b><%=title%> Dashboard</b></a>
         <!--logo end-->
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="/admin/logout">Logout</a></li>
+                <li><a class="logout" href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -127,194 +127,99 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data"
+                                    <div id="statusBox" style="display: none">
+                                        <span id="status" class="alert-success" style="padding: 15px 80px;background: #D4EDDA!important;color: #155724;font-weight: bold"></span>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="uploadForm"
+                                          enctype="multipart/form-data"
                                           method="post"
-                                          action="/admin/member-register-1"
+                                          action="/applicant/register"
                                           class="form-horizontal" >
+
                                         <table class="table">
                                             <tr>
                                                 <td>Applicant Name</td>
                                                 <td><input type="text" class="form-control"
-                                                           placeholder="First Name"
-                                                           id="inputFirstName"
-                                                           name="firstname" ></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Middle Name"
-                                                           name="middlename"
-                                                           id="inputMiddleName"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Last Name"
-                                                           id="inputSecondName"
-                                                           name="lastname" ></td>
+                                                           placeholder="Applicant Mobile"
+                                                           id="applicantMobile"
+                                                           name="applicantMobile" ></td>
                                             </tr>
                                             <tr>
-                                                <td>Father's Name</td>
+                                                <td>Company Name</td>
                                                 <td><input type="text" class="form-control"
-                                                           placeholder="Father's Name"
-                                                           id="inputFatherName"
-                                                           name="fathersname" ></td>
+                                                           placeholder="Company Name"
+                                                           id="companyName"
+                                                           name="companyName"></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td>Designation</td>
+                                                <td>Address 1</td>
                                                 <td><input type="text" class="form-control"
-                                                           placeholder="Designation"
-                                                           id="inputDesignation"
-                                                           name="designation" ></td>
+                                                           placeholder="Address 1"
+                                                           id="address1"
+                                                           name="address1" ></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td>Organization</td>
+                                                <td>Address 2</td>
                                                 <td><input type="text" class="form-control"
-                                                           placeholder="Organization Name"
-                                                           id="inputOrganization"
-                                                           name="organization" ></td>
+                                                           placeholder="Address 2"
+                                                           id="address2"
+                                                           name="address2" ></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td>Mailing Address</td>
+                                                <td>Cellphone</td>
                                                 <td><input type="text" class="form-control"
-                                                           placeholder="City"
-                                                           id="inputCity"
-                                                           name="city"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="State"
-                                                           id="inputState"
-                                                           name="state" ></td>
+                                                           placeholder="Cellphone"
+                                                           id="cellphone"
+                                                           name="cellphone"></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td colspan="2">
-                                                    <input type="text" class="form-control"
-                                                                       placeholder="Road, House, Street"
-                                                                       id="inputAddress"
-                                                                       name="address"></td>
-                                                <td>
-                                                    <input type="number" class="form-control"
-                                                           placeholder="Post Code"
-                                                           id="inputPO"
-                                                           name="postcode"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Phone Number</td>
+                                                <td>Telephone</td>
                                                 <td><input type="number" class="form-control"
-                                                           placeholder="Office Phone"
-                                                           id="inputOfficePhone"
-                                                           name="officephn"></td>
-                                                <td><input type="number" class="form-control"
-                                                           placeholder="Residence Phone"
-                                                           id="inputResidencePhone"
-                                                           name="residencephn"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fax Number</td>
-                                                <td><input type="number" class="form-control"
-                                                           placeholder="Fax Number"
-                                                           id="inputFaxNumber"
-                                                           name="faxnum"></td>
-                                                <td><input type="number" class="form-control"
-                                                           placeholder="Mobile Number"
-                                                           id="inputMobileNumber"
-                                                           name="mobile"></td>
+                                                           placeholder="Telephone"
+                                                           id="telephone"
+                                                           name="telephone"></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <td>Email</td>
                                                 <td><input type="email" class="form-control"
-                                                           placeholder="abcd@example.com"
-                                                           id="inputEmailAddress"
+                                                           placeholder="Email Address"
+                                                           id="email"
                                                            name="email"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Website</td>
                                                 <td><input type="url" class="form-control"
-                                                           placeholder="URL"
-                                                           id="inputURL"
-                                                           name="url"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Permanent Address</td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="District"
-                                                           id="inputDistrict"
-                                                           name="district"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Upazila"
-                                                           id="inputUpazila"
-                                                           name="upazila"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Post Office"
-                                                           id="inputPostOffice"
-                                                           name="postoffice"></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Village"
-                                                           id="inputVillage"
-                                                           name="village"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Road"
-                                                           id="inputRoad"
-                                                           name="road"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Block"
-                                                           id="inputBlock"
-                                                           name="block"></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="House"
-                                                           id="inputHouse"
-                                                           name="house"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Post Code"
-                                                           id="PermanetAddressPostCode"
-                                                           name="permanentpostcode"></td>
+                                                           placeholder="http://www.example.com"
+                                                           id="website"
+                                                           name="website"></td>
                                                 <td></td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Nationality"
-                                                           id="inputNationality"
-                                                           name="nationality"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Blood Group"
-                                                           id="inputBloodGroup"
-                                                           name="blood_group"></td>
-                                                <td><input type="text" class="form-control"
-                                                           placeholder="Date Of Birth"
-                                                           id="inputDOB"
-                                                           name="dob"></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gender</td>
-                                                <td>
-                                                    <select name="gender" id="applicantGender">
-                                                        <option value="">Choose</option>
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Please Upload Your Picture</td>
+                                                <td>Please Upload Company Logo</td>
                                                 <td>Choose Your Picture</td>
                                                 <td></td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td><input type="file" class="form-control-file"
-                                                           id="applicantImage" name="applicantimage"></td>
+                                                           id="companylogo" name="companylogo"></td>
                                                 <td></td>
                                             </tr>
                                         </table>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <input type="submit" class="btn btn-sm btn-success" value="Next">
+                                            <button type="button" class="btn btn-md btn-secondary" data-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-md btn-success" value="Register">
                                         </div>
                                     </form>
 
@@ -417,11 +322,40 @@
 <!--common script for all pages-->
 <script src="/admin/lib/common-scripts.js"></script>
 <script src="/admin/lib/advanced-datatable/js/jquery.dataTables.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <!--script for this page-->
 <script>
     $(document).ready(function() {
         $('#member_requests').DataTable();
     } );
+</script>
+<script>
+    $(document).ready(function() {
+        $('#uploadForm').submit(function() {
+            $("#status").empty().text("File is uploading...");
+            $(this).ajaxSubmit({
+                error: function(xhr) {
+                    status('Error: ' + xhr.status);
+                },
+                success: function(response) {
+                    $('#applicantMobile').val('');
+                    $('#companyName').val('');
+                    $('#address1').val('');
+                    $('#address2').val('');
+                    $('#cellphone').val('');
+                    $('#telephone').val('');
+                    $('#email').val('');
+                    $('#website').val('');
+                    //document.getElementById('statusBox').style="display: block";
+                    //$("#status").empty().text(response);
+                    alert(response);
+                    //console.log(response);
+                }
+            });
+            //Code to disable the page refresh.
+            return false;
+        });
+    });
 </script>
 </body>
 

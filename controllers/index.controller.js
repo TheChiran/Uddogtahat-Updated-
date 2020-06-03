@@ -1,6 +1,6 @@
 //const Members = require('../model/applicant/applicant.general.info.model');
 const Company = require('../model/company/company.information.model');
-const Gallery = require('../model/gallary/gallary.model');
+const Gallery = require('../model/gallery/gallery.model');
 const Activity = require('../model/activities/activities.model');
 const Committee = require('../model/committee/committee.model');
 const Event = require('../model/events/events.model');

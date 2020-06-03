@@ -24,5 +24,7 @@ let Applicant_mailing_address = new Schema({
     approval:{
         type:String
     }
+},{
+    collection: 'ApplicantMailingAddress'
 })
 module.exports = mongoose.model('ApplicantMailingAddress',Applicant_mailing_address);

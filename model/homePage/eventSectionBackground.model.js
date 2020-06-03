@@ -6,8 +6,7 @@ let EventSectionBackground = new Schema({
         type: String,
         required: true
     }
-},
-    {
-        'collection': 'EventSectionBackground'
-    });
+},{
+    collection: 'EventBackground'
+});
 module.exports = mongoose.model('EventSectionBackground',EventSectionBackground);

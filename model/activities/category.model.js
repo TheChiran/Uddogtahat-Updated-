@@ -5,6 +5,8 @@ let category = new Schema({
     name:{
         type: String
     }
+},{
+    collection: 'Category'
 })
 
 module.exports = mongoose.model('Category',category);

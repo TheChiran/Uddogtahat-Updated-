@@ -28,5 +28,7 @@ let Committee = new Schema({
     serial:{
         type: Number
     }
+},{
+    collection: 'Committee'
 });
 module.exports = mongoose.model('Committee',Committee);

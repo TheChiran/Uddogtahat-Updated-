@@ -35,5 +35,7 @@ let Company_Information = new Schema({
     approval:{
         type: String
     }
+},{
+    collection: 'Company'
 })
 module.exports = mongoose.model('Company',Company_Information);

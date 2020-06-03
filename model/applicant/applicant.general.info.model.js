@@ -44,5 +44,7 @@ let Applicant_General_info = new Schema({
     approval:{
         type:String
     }
+},{
+    collection: 'ApplicantGeneralInfo'
 })
 module.exports = mongoose.model('ApplicantGeneralInfo',Applicant_General_info);

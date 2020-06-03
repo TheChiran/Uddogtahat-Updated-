@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-
+require('dotenv').config();
 
 
 var indexRouter = require('./routes/index.routes');
@@ -20,6 +20,7 @@ var adminUserRouter = require('./routes/user.route');
 var dashboardRouter = require('./routes/dashboard.route');
 var eventRouter = require('./routes/event.route');
 var memberRouter = require('./routes/member.route');
+var ambassadorRouter = require('./routes/ambassador.route');
 
 //database connection
 const mongoose = require('mongoose');
@@ -66,6 +67,7 @@ app.use('/user', adminUserRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/event', eventRouter);
 app.use('/member', memberRouter);
+app.use('/ambassador',ambassadorRouter);
 
 
 

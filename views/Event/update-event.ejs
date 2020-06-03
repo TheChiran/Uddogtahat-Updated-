@@ -26,11 +26,11 @@
         window.onload = function () {
             var next = '';
             var page = parseInt(pageNum());
-            next += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page + 1);
+            next += '<a class="page-link" onclick="return pageNum()"  href="/gallery/page/' + (page + 1);
             next += '" >Next</a>';
             document.getElementById('pageNext').innerHTML = next;
             var previous = '';
-            previous += '<a class="page-link" onclick="return pageNum()"  href="/gallary/page/' + (page - 1);
+            previous += '<a class="page-link" onclick="return pageNum()"  href="/gallery/page/' + (page - 1);
             previous += '" >Previous</a>';
             document.getElementById('pagePrevious').innerHTML = previous;
         };

@@ -1,5 +1,4 @@
-
-const Gallery = require('../model/gallary/gallary.model');
+const Gallery = require('../model/gallery/gallery.model');
 const Social = require('../model/social-accounts/social_account.model');
 const Logo = require('../model/homePage/logo.model');
 const WebsiteTitle = require('../model/homePage/website.title.model');
@@ -128,8 +127,8 @@ exports.gallery = function (req,res) {
                             }
                         }*/
                         /*calculate total page number*/
-                        /*res.render('Gallery/gallary',{
-                            gallary: gallaryResult,
+                        /*res.render('Gallery/gallery',{
+                            gallery: gallaryResult,
                             page:page,
                             pages:pages,
                             title: title,
@@ -235,39 +234,7 @@ exports.getPage = function(req,res){
             })
         }
     })
-    /*totalGallary.exec(function (err,total) {
-        if(err) throw err;
-        logo.exec(function(err,logo){
-            if(err) throw err;
-            webTitle.exec(function(err,title){
-                if(err) throw err;
-                gallaryData.exec(function (err,gallaryResult) {
-                    if(err) throw err;
-                    if(total<=8){
-                        pages=1;
-                    }else {
-                        if(total % 8!=0){
-                            pages=(Math.floor(total/8))+1;
-                        }else{
-                            pages=Math.floor(total/8);
-                        }
-                    }
-                    /*calculate total page number*/
-                    /*if (page > pages || page < 1) {
-                        res.redirect('/gallary')
-                    } else {
-                        res.render('Gallery/gallary',{
-                            gallary: gallaryResult,
-                            page:page,
-                            pages:pages,
-                            logo: logo,
-                            title: title
-                        })
-                    }
-                })
-            })
-        })
-    })*/
+
 
 }
 
@@ -300,19 +267,9 @@ exports.postGalleryContent = async function(req,res){
             catch (error) {
                 throw error;
             }
-            /*let gallary = new Gallery({
-                eventname: req.body.eventname,
-                image: req.file.filename,
-                serial:serial
-            })
-            gallary.save(function(err){
-                if(err) throw err;
-                res.end("File is uploaded!");
-            })*/
         })
 
     })
-    //res.render('admin/dashboard/gallary')
 }
 
 

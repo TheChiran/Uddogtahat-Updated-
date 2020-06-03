@@ -11,6 +11,6 @@ let about = new Schema({
     }
 },
     {
-        collection:'about'
+        collection:'About'
     })
 module.exports = mongoose.model('About',about);

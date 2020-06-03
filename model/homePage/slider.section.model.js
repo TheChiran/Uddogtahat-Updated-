@@ -13,5 +13,7 @@ let HomePageSliderSection = new Schema({
         type: String,
         required: true
     }
+},{
+    collection:'HomePageSlider'
 });
 module.exports = mongoose.model('HomePageSlider',HomePageSliderSection);

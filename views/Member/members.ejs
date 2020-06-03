@@ -199,7 +199,7 @@
         </div>
 
     </div>
-    <!--gallary Pagination-->
+    <!--gallery Pagination-->
     <div class="container">
         <div class="row">
             <div class="col-md-4"></div>
@@ -210,9 +210,9 @@
                         <li class="page-item" id="pagePrevious"></li>
                         <% for(var i=0;i<pages;i++){%>
                             <% if (page== i+1) { %>
-                                <li class="page-item active"><a style="color: #fff !important" class="page-link" href="/members/page/<%=(i+1)%>"><%=(i+1)%></a></li>
+                                <li class="page-item active"><a style="color: #fff !important" class="page-link" href="/member/page/<%=(i+1)%>"><%=(i+1)%></a></li>
                             <%} else { %>
-                                <li class="page-item"><a class="page-link" href="/members/page/<%=(i+1)%>"><%=(i+1)%></a></li>
+                                <li class="page-item"><a class="page-link" href="/member/page/<%=(i+1)%>"><%=(i+1)%></a></li>
                             <% } %>
                         <%}%>
                         <li class="page-item" id="pageNext"></li>

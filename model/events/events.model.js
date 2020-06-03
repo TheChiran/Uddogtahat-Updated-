@@ -22,5 +22,7 @@ let Event = new Schema({
         type: String,
         required: true
     }
+},{
+    collection: 'Event'
 });
 module.exports = mongoose.model('Event',Event);

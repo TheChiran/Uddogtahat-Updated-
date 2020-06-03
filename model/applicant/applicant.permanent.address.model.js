@@ -35,5 +35,7 @@ let Applicant_permanent_address = new Schema({
     approval:{
         type:String
     }
+},{
+    collection: 'ApplicantPermanentAddress'
 })
 module.exports = mongoose.model('ApplicantPermanentAddress',Applicant_permanent_address);

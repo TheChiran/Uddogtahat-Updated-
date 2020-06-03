@@ -6,8 +6,7 @@ let Website = new Schema({
         type: String,
         required: true
     }
-},
-    {
-        'collection':'WebsiteTitle'
-    });
+},{
+    collection:'WebTitle'
+});
 module.exports = mongoose.model('WebTitle',Website);

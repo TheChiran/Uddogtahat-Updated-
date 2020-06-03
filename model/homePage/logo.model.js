@@ -7,6 +7,6 @@ let Logo = new Schema({
         required: true
     }
 },{
-    collection:'logo'
+    collection:'Logo'
 });
 module.exports = mongoose.model('Logo',Logo);

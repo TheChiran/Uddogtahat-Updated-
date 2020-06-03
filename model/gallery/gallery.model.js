@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let gallary = new Schema({
+let gallery = new Schema({
     eventname:{
         type:String
     },
@@ -15,5 +15,7 @@ let gallary = new Schema({
     serial:{
         type: Number
     }
+},{
+    collection: 'Gallery'
 })
-module.exports = mongoose.model('Gallary',gallary);
+module.exports = mongoose.model('Gallery',gallery);
